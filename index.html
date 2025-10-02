@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Soporte Técnico</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="logo">🛠️ SoporteTech</div>
+    <nav>
+      <ul>
+        <li><a href="#">Inicio</a></li>
+        <li><a href="#">Ayuda</a></li>
+        <li><a href="#">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <h3>Menú</h3>
+      <ul>
+        <li><a href="#">📨 Crear Ticket</a></li>
+        <li><a href="#">📋 Mis Tickets</a></li>
+        <li><a href="#">📘 Guías</a></li>
+        <li><a href="#">📞 Soporte</a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <section class="form-section">
+        <h1>Enviar un nuevo Ticket</h1>
+        <form id="ticketForm">
+          <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" required />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Correo electrónico</label>
+            <input type="email" id="email" required />
+          </div>
+
+          <div class="form-group">
+            <label for="asunto">Asunto</label>
+            <input type="text" id="asunto" required />
+          </div>
+
+          <div class="form-group">
+            <label for="mensaje">Descripción del problema</label>
+            <textarea id="mensaje" rows="5" required></textarea>
+          </div>
+
+          <button type="submit">Enviar Ticket</button>
+          <button type="button" id="clearTickets" class="secondary">Eliminar Todos</button>
+        </form>
+      </section>
+
+      <section id="tickets">
+        <h2>Tickets Enviados</h2>
+        <ul id="listaTickets"></ul>
+      </section>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <p>&copy; 2025 SoporteTech. Todos los derechos reservados. | <a href="#">Política de privacidad</a></p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
