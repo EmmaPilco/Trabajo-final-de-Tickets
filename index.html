@@ -3,72 +3,116 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Soporte Técnico</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css">
+  <title>SoporteTech - Soporte Técnico Profesional</title>
 </head>
 <body>
-  <header class="site-header">
-    <div class="logo">🛠️ SoporteTech</div>
-    <nav>
-      <ul>
-        <li><a href="#">Inicio</a></li>
-        <li><a href="#">Ayuda</a></li>
-        <li><a href="#">Contacto</a></li>
-      </ul>
-    </nav>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="logo">🛠️ SoporteTech</div>
+      <nav>
+        <ul class="nav">
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#servicios">Servicios</a></li>
+          <li><a href="#crear-ticket">Crear Ticket</a></li>
+          <li><a href="#mis-tickets">Mis Tickets</a></li>
+        </ul>
+      </nav>
+    </div>
   </header>
 
-  <div class="layout">
-    <aside class="sidebar">
-      <h3>Menú</h3>
-      <ul>
-        <li><a href="#">📨 Crear Ticket</a></li>
-        <li><a href="#">📋 Mis Tickets</a></li>
-        <li><a href="#">📘 Guías</a></li>
-        <li><a href="#">📞 Soporte</a></li>
-      </ul>
-    </aside>
+  <!-- Hero Section -->
+  <section id="inicio" class="hero">
+    <div class="container">
+      <h1>Soporte Técnico Profesional</h1>
+      <p>Resolvemos tus problemas técnicos de forma rápida y eficiente</p>
+      <button class="cta-button" onclick="document.getElementById('crear-ticket').scrollIntoView({behavior: 'smooth'})">
+        Crear Ticket Ahora
+      </button>
+    </div>
+  </section>
 
-    <main class="main-content">
-      <section class="form-section">
-        <h1>Enviar un nuevo Ticket</h1>
+  <!-- Features Section -->
+  <section id="servicios" class="features">
+    <div class="container">
+      <h2 class="section-title">Nuestros Servicios</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📨</div>
+          <h3>Tickets Rápidos</h3>
+          <p>Crea tickets de soporte en segundos y recibe respuestas ágiles de nuestro equipo.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📋</div>
+          <h3>Seguimiento</h3>
+          <p>Monitorea el estado de todos tus tickets en tiempo real desde un solo lugar.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📘</div>
+          <h3>Base de Conocimiento</h3>
+          <p>Accede a guías y tutoriales para resolver problemas comunes por tu cuenta.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📞</div>
+          <h3>Soporte 24/7</h3>
+          <p>Nuestro equipo está disponible las 24 horas para ayudarte cuando lo necesites.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Form Section -->
+  <section id="crear-ticket" class="form-section">
+    <div class="container">
+      <h2 class="section-title">Crear Nuevo Ticket</h2>
+      <div class="form-container">
         <form id="ticketForm">
           <div class="form-group">
-            <label for="nombre">Nombre</label>
-            <input type="text" id="nombre" required />
+            <label for="nombre">Nombre Completo</label>
+            <input type="text" id="nombre" placeholder="Ingresa tu nombre" required />
           </div>
 
           <div class="form-group">
-            <label for="email">Correo electrónico</label>
-            <input type="email" id="email" required />
+            <label for="email">Correo Electrónico</label>
+            <input type="email" id="email" placeholder="tu@email.com" required />
           </div>
 
           <div class="form-group">
             <label for="asunto">Asunto</label>
-            <input type="text" id="asunto" required />
+            <input type="text" id="asunto" placeholder="Breve descripción del problema" required />
           </div>
 
           <div class="form-group">
-            <label for="mensaje">Descripción del problema</label>
-            <textarea id="mensaje" rows="5" required></textarea>
+            <label for="mensaje">Descripción Detallada</label>
+            <textarea id="mensaje" rows="6" placeholder="Describe tu problema con el mayor detalle posible..." required></textarea>
           </div>
 
-          <button type="submit">Enviar Ticket</button>
-          <button type="button" id="clearTickets" class="secondary">Eliminar Todos</button>
+          <button type="submit" class="submit-button">Enviar Ticket</button>
         </form>
-      </section>
+      </div>
+    </div>
+  </section>
 
-      <section id="tickets">
-        <h2>Tickets Enviados</h2>
-        <ul id="listaTickets"></ul>
-      </section>
-    </main>
-  </div>
+  <!-- Tickets Section -->
+  <section id="mis-tickets" class="tickets-section">
+    <div class="container">
+      <h2 class="section-title">Mis Tickets</h2>
+      <ul id="ticketsList" class="tickets-list"></ul>
+      <div style="text-align: center;">
+        <button id="clearAllBtn" class="btn-clear" style="display: none;">
+          Eliminar Todos los Tickets
+        </button>
+      </div>
+    </div>
+  </section>
 
-  <footer class="site-footer">
-    <p>&copy; 2025 SoporteTech. Todos los derechos reservados. | <a href="#">Política de privacidad</a></p>
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2025 SoporteTech. Todos los derechos reservados.</p>
+    <p><a href="#">Política de Privacidad</a> | <a href="#">Términos de Servicio</a></p>
   </footer>
 
-  <script src="script.js"></script>
+ <script src="script.js"></script>
 </body>
 </html>
