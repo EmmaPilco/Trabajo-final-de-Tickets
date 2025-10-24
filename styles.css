@@ -106,6 +106,28 @@ body {
   }
 }
 
+
+.btn-service {
+    display: inline-block;
+    background-color: transparent;
+    color: #0066cc;
+    border: 2px solid #0066cc;
+    padding: 10px 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9em;
+    transition: all 0.3s;
+    margin-top: auto; /* Asegura que se pegue al fondo si el contenido es variable */
+}
+
+.btn-service:hover {
+    background-color: #0066cc;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 102, 204, 0.3);
+}
+
+
 /* Features Section */
 .features {
   padding: 80px 20px;
@@ -137,6 +159,7 @@ body {
   text-align: center;
   box-shadow: 0 5px 15px rgba(0,0,0,0.08);
   transition: transform 0.3s, box-shadow 0.3s;
+  justify-content: space-between;
 }
 
 .feature-card:hover {
@@ -158,6 +181,8 @@ body {
 .feature-card p {
   color: #666;
   line-height: 1.8;
+  flex-grow: 1;
+  margin-bottom: 20px;
 }
 
 /* Form Section */
