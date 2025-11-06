@@ -92,3 +92,32 @@
     align-items: center;
     gap: 5px;
 }
+
+.comments-history {
+    max-height: 300px; /* Aumenta la altura máxima */
+    overflow-y: auto;
+    background-color: #f8f8f8;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
+/* Scroll personalizado para usuarios también */
+.comments-history::-webkit-scrollbar {
+    width: 6px;
+}
+
+.comments-history::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.comments-history::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.comments-history::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}

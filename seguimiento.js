@@ -1,6 +1,6 @@
 // Variables globales (DEBEN coincidir con la estructura del script de index.html)
 let tickets = [];
-const tecnicos = ['Sin Asignar', 'Emmanuel Pilco', 'Rodrigo Tapia', 'Naobi Fernandez', 'Rafael Gonzales'];
+const tecnicos = ['Sin Asignar', 'Emmanuel Pilco', 'Rodrigo Tapia', 'Naobi Fernandez', 'Rafael Gonzalez'];
 
 
 // -----------------------------------------------------------------------
@@ -117,7 +117,6 @@ function filterTicketsByEmail() {
 function addComment(e, id) {
     e.preventDefault();
     
-    // La función addComment necesita guardar en localStorage y luego re-renderizar
     const form = e.target;
     const textarea = form.querySelector('textarea');
     const fileInput = form.querySelector('.comment-file');
@@ -134,18 +133,26 @@ function addComment(e, id) {
         tickets[ticketIndex].adjuntos.push(fileName);
     }
 
-    // Añadir el comentario
+    // Añadir el comentario del usuario
     tickets[ticketIndex].comentarios.push({
         autor: tickets[ticketIndex].nombre, 
         texto: commentText,
-        fecha: new Date().toLocaleString('es-ES')
+        fecha: new Date().toLocaleString('es-ES'),
+        tipo: 'usuario',
+        email: tickets[ticketIndex].email
     });
 
-    localStorage.setItem('tickets', JSON.stringify(tickets)); // Guardar
+    // Guardar en ambos sistemas (tickets regulares y técnicos)
+    localStorage.setItem('tickets', JSON.stringify(tickets));
+    
+    // También guardar en la base de datos técnica
+    if (typeof ticketDB !== 'undefined') {
+        ticketDB.addUserComment(id, commentText, tickets[ticketIndex].nombre, tickets[ticketIndex].email);
+    }
     
     // Para re-renderizar, obtenemos el email actual del filtro
     const currentEmail = document.getElementById('filterEmail').value.trim();
-    renderFilteredTickets(currentEmail); // Volver a renderizar
+    renderFilteredTickets(currentEmail);
     
     textarea.value = ''; // Limpiar textarea
     fileInput.value = ''; // Limpiar input de archivo
