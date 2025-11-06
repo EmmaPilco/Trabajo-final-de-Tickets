@@ -4,8 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Base de Conocimiento | SoporteTech</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="conocimiento.css" />
+    <link rel="stylesheet" href="conocimiento.css">
 </head>
 <body>
     <header class="header">
@@ -17,11 +16,18 @@
                     <li><a href="index.html#servicios">Servicios</a></li>
                     <li><a href="index.html#crear-ticket">Crear Ticket</a></li>
                     <li><a href="index.html#mis-tickets">Mis Tickets</a></li>
-                    <li><a href="login.html">Acceso Técnicos</a></li>
                 </ul>
             </nav>
         </div>
     </header>
+
+    <div class="breadcrumbs">
+        <div class="container">
+            <a href="index.html">Inicio</a>
+            <span>›</span>
+            <strong>Base de Conocimiento</strong>
+        </div>
+    </div>
 
     <section class="knowledge-section">
         <div class="container">
@@ -30,53 +36,224 @@
                 Encuentra tutoriales, soluciones rápidas y documentación completa para resolver problemas por tu cuenta.
             </p>
 
-            <div class="search-box">
-                <input type="text" placeholder="Buscar guías, errores o aplicaciones (ej: 'Outlook', 'impresora', 'VPN')" class="search-input">
-                <button class="search-button">🔍 Buscar</button>
+            <!-- Popular Guides -->
+            <div class="popular-banner">
+                <h3>🔥 Guías Más Consultadas</h3>
+                <div class="popular-guides">
+                    <div class="popular-item" onclick="searchGuide('Outlook')">
+                        <div class="popular-item-title">📧 Actualizar MS Office y Outlook</div>
+                        <div class="popular-stats">
+                            <span class="stat">👁️ 1,234 vistas</span>
+                            <span class="stat">⭐ 4.8</span>
+                        </div>
+                    </div>
+                    <div class="popular-item" onclick="searchGuide('VPN')">
+                        <div class="popular-item-title">🔐 Configuración de VPN</div>
+                        <div class="popular-stats">
+                            <span class="stat">👁️ 987 vistas</span>
+                            <span class="stat">⭐ 4.9</span>
+                        </div>
+                    </div>
+                    <div class="popular-item" onclick="searchGuide('impresora')">
+                        <div class="popular-item-title">🖨️ Diagnóstico de Impresora</div>
+                        <div class="popular-stats">
+                            <span class="stat">👁️ 856 vistas</span>
+                            <span class="stat">⭐ 4.7</span>
+                        </div>
+                    </div>
+                    <div class="popular-item" onclick="searchGuide('contraseña')">
+                        <div class="popular-item-title">🔑 Restablecer Contraseña</div>
+                        <div class="popular-stats">
+                            <span class="stat">👁️ 745 vistas</span>
+                            <span class="stat">⭐ 4.6</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
+            <!-- Search Box -->
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" 
+                           id="searchInput"
+                           placeholder="Buscar guías, errores o aplicaciones (ej: 'Outlook', 'impresora', 'VPN')" 
+                           class="search-input"
+                           oninput="handleSearch()">
+                    <button class="search-button" onclick="handleSearch()">🔍 Buscar</button>
+                </div>
+                <div class="recent-searches" id="recentSearches"></div>
+            </div>
+
+            <div class="search-results-count" id="resultsCount"></div>
+
+            <!-- Category Filters -->
+            <div class="category-filters">
+                <button class="filter-btn active" onclick="filterCategory('all')">
+                    Todas <span class="filter-count" id="count-all">16</span>
+                </button>
+                <button class="filter-btn" onclick="filterCategory('software')">
+                    💻 Software <span class="filter-count" id="count-software">4</span>
+                </button>
+                <button class="filter-btn" onclick="filterCategory('redes')">
+                    🔌 Redes <span class="filter-count" id="count-redes">4</span>
+                </button>
+                <button class="filter-btn" onclick="filterCategory('hardware')">
+                    🖥️ Hardware <span class="filter-count" id="count-hardware">4</span>
+                </button>
+                <button class="filter-btn" onclick="filterCategory('seguridad')">
+                    🔒 Seguridad <span class="filter-count" id="count-seguridad">4</span>
+                </button>
+            </div>
+
+            <!-- Categories Grid -->
             <div class="categories-grid">
 
-                <div class="category-card">
-                    <h3>💻 Software y Productividad</h3>
+                <div class="category-card" data-category="software">
+                    <div class="category-header">
+                        <h3>💻 Software y Productividad</h3>
+                        <span class="category-count">4 guías</span>
+                    </div>
                     <ul class="guide-list">
-                        <li><a href="#">Cómo actualizar MS Office y Outlook</a></li>
-                        <li><a href="#">Solucionar errores de la Aplicación de Inventario (F-301)</a></li>
-                        <li><a href="#">Guía para borrar caché y cookies del navegador</a></li>
-                        <li><a href="#">Configuración de doble monitor en Windows 10/11</a></li>
+                        <li data-keywords="office outlook actualizar email correo">
+                            <a href="#">
+                                <span class="guide-icon">📧</span>
+                                Cómo actualizar MS Office y Outlook
+                                <span class="guide-badge updated">Actualizado</span>
+                            </a>
+                        </li>
+                        <li data-keywords="inventario aplicacion error f-301 bug">
+                            <a href="#">
+                                <span class="guide-icon">📦</span>
+                                Solucionar errores de la Aplicación de Inventario (F-301)
+                            </a>
+                        </li>
+                        <li data-keywords="cache cookies navegador browser limpiar">
+                            <a href="#">
+                                <span class="guide-icon">🧹</span>
+                                Guía para borrar caché y cookies del navegador
+                            </a>
+                        </li>
+                        <li data-keywords="monitor pantalla doble dual windows configurar">
+                            <a href="#">
+                                <span class="guide-icon">🖥️</span>
+                                Configuración de doble monitor en Windows 10/11
+                                <span class="guide-badge">Nuevo</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
 
-                <div class="category-card">
-                    <h3>🔌 Redes y Conectividad</h3>
+                <div class="category-card" data-category="redes">
+                    <div class="category-header">
+                        <h3>🔌 Redes y Conectividad</h3>
+                        <span class="category-count">4 guías</span>
+                    </div>
                     <ul class="guide-list">
-                        <li><a href="#">Diagnóstico de Conexión a Internet Lenta (5 pasos)</a></li>
-                        <li><a href="#">Configuración inicial y uso de VPN (Acceso Remoto)</a></li>
-                        <li><a href="#">Cómo reiniciar el Router/AP correctamente</a></li>
-                        <li><a href="#">Resolviendo problemas de red WiFi corporativa</a></li>
+                        <li data-keywords="internet lento conexion velocidad diagnostico">
+                            <a href="#">
+                                <span class="guide-icon">🐌</span>
+                                Diagnóstico de Conexión a Internet Lenta (5 pasos)
+                            </a>
+                        </li>
+                        <li data-keywords="vpn acceso remoto configuracion conexion segura">
+                            <a href="#">
+                                <span class="guide-icon">🔐</span>
+                                Configuración inicial y uso de VPN (Acceso Remoto)
+                                <span class="guide-badge updated">Actualizado</span>
+                            </a>
+                        </li>
+                        <li data-keywords="router reiniciar ap access point reset">
+                            <a href="#">
+                                <span class="guide-icon">🔄</span>
+                                Cómo reiniciar el Router/AP correctamente
+                            </a>
+                        </li>
+                        <li data-keywords="wifi red inalambrica problema conexion corporativa">
+                            <a href="#">
+                                <span class="guide-icon">📶</span>
+                                Resolviendo problemas de red WiFi corporativa
+                            </a>
+                        </li>
                     </ul>
                 </div>
 
-                <div class="category-card">
-                    <h3>🖥️ Hardware y Periféricos</h3>
+                <div class="category-card" data-category="hardware">
+                    <div class="category-header">
+                        <h3>🖥️ Hardware y Periféricos</h3>
+                        <span class="category-count">4 guías</span>
+                    </div>
                     <ul class="guide-list">
-                        <li><a href="#">Mi impresora no funciona: Guía de diagnóstico completo</a></li>
-                        <li><a href="#">Optimización de PC con rendimiento bajo o lento</a></li>
-                        <li><a href="#">Cómo limpiar el teclado y mouse correctamente</a></li>
-                        <li><a href="#">Gestión de garantía para equipos dañados</a></li>
+                        <li data-keywords="impresora imprimir problema diagnostico printer">
+                            <a href="#">
+                                <span class="guide-icon">🖨️</span>
+                                Mi impresora no funciona: Guía de diagnóstico completo
+                            </a>
+                        </li>
+                        <li data-keywords="pc lento rendimiento optimizar velocidad performance">
+                            <a href="#">
+                                <span class="guide-icon">⚡</span>
+                                Optimización de PC con rendimiento bajo o lento
+                                <span class="guide-badge">Nuevo</span>
+                            </a>
+                        </li>
+                        <li data-keywords="teclado mouse limpiar mantenimiento limpieza">
+                            <a href="#">
+                                <span class="guide-icon">🧼</span>
+                                Cómo limpiar el teclado y mouse correctamente
+                            </a>
+                        </li>
+                        <li data-keywords="garantia equipo roto dañado reparacion">
+                            <a href="#">
+                                <span class="guide-icon">🛠️</span>
+                                Gestión de garantía para equipos dañados
+                            </a>
+                        </li>
                     </ul>
                 </div>
 
-                <div class="category-card">
-                    <h3>🔒 Seguridad y Cuentas</h3>
+                <div class="category-card" data-category="seguridad">
+                    <div class="category-header">
+                        <h3>🔒 Seguridad y Cuentas</h3>
+                        <span class="category-count">4 guías</span>
+                    </div>
                     <ul class="guide-list">
-                        <li><a href="#">Procedimiento para restablecer mi contraseña</a></li>
-                        <li><a href="#">Guía para identificar y reportar correos Phishing</a></li>
-                        <li><a href="#">Revisión de permisos de archivos compartidos</a></li>
-                        <li><a href="#">Mantener el Antivirus actualizado</a></li>
+                        <li data-keywords="contraseña password restablecer recuperar cambiar">
+                            <a href="#">
+                                <span class="guide-icon">🔑</span>
+                                Procedimiento para restablecer mi contraseña
+                            </a>
+                        </li>
+                        <li data-keywords="phishing correo spam seguridad email malicioso">
+                            <a href="#">
+                                <span class="guide-icon">🎣</span>
+                                Guía para identificar y reportar correos Phishing
+                                <span class="guide-badge updated">Actualizado</span>
+                            </a>
+                        </li>
+                        <li data-keywords="permisos archivos compartir acceso carpeta">
+                            <a href="#">
+                                <span class="guide-icon">📂</span>
+                                Revisión de permisos de archivos compartidos
+                            </a>
+                        </li>
+                        <li data-keywords="antivirus actualizar seguridad proteccion virus">
+                            <a href="#">
+                                <span class="guide-icon">🛡️</span>
+                                Mantener el Antivirus actualizado
+                            </a>
+                        </li>
                     </ul>
                 </div>
 
+            </div>
+
+            <!-- Help Banner -->
+            <div class="help-banner">
+                <h3>❓ ¿No encontraste lo que buscabas?</h3>
+                <p>Nuestro equipo de soporte está listo para ayudarte. Crea un ticket y te responderemos en menos de 24 horas.</p>
+                <button class="btn-help" onclick="window.location.href='index.html#crear-ticket'">
+                    📝 Crear Ticket de Soporte
+                </button>
             </div>
         </div>
     </section>
@@ -85,5 +262,141 @@
         <p>&copy; 2025 SoporteTech. Todos los derechos reservados.</p>
         <p><a href="#">Política de Privacidad</a> | <a href="#">Términos de Servicio</a></p>
     </footer>
+
+    <script>
+     
+    let recentSearches = [];
+    let currentFilter = 'all';
+
+    function handleSearch() {
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+        
+        if (!searchTerm) {
+            showAllGuides();
+            updateResultsCount(16);
+            return;
+        }
+
+        // Save to recent searches
+        if (searchTerm && !recentSearches.includes(searchTerm)) {
+            recentSearches.unshift(searchTerm);
+            if (recentSearches.length > 5) recentSearches.pop();
+            updateRecentSearches();
+        }
+
+        let visibleCount = 0;
+        const guides = document.querySelectorAll('.guide-list li');
+        const cards = document.querySelectorAll('.category-card');
+        
+        // Reset all
+        guides.forEach(guide => {
+            guide.classList.remove('hidden', 'highlight');
+        });
+        
+        cards.forEach(card => {
+            card.classList.remove('hidden');
+            let hasVisibleGuide = false;
+            const cardGuides = card.querySelectorAll('.guide-list li');
+            
+            cardGuides.forEach(guide => {
+                const keywords = guide.getAttribute('data-keywords') || '';
+                const text = guide.textContent.toLowerCase();
+                
+                if (keywords.includes(searchTerm) || text.includes(searchTerm)) {
+                    guide.classList.add('highlight');
+                    hasVisibleGuide = true;
+                    visibleCount++;
+                } else {
+                    guide.classList.add('hidden');
+                }
+            });
+            
+            if (!hasVisibleGuide) {
+                card.classList.add('hidden');
+            }
+        });
+        
+        updateResultsCount(visibleCount);
+    }
+
+    function searchGuide(term) {
+        document.getElementById('searchInput').value = term;
+        handleSearch();
+        document.getElementById('searchInput').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function showAllGuides() {
+        document.querySelectorAll('.guide-list li').forEach(guide => {
+            guide.classList.remove('hidden', 'highlight');
+        });
+        document.querySelectorAll('.category-card').forEach(card => {
+            card.classList.remove('hidden');
+        });
+    }
+
+    function updateResultsCount(count) {
+        const resultsDiv = document.getElementById('resultsCount');
+        if (count === 16 || document.getElementById('searchInput').value === '') {
+            resultsDiv.textContent = '';
+        } else if (count === 0) {
+            resultsDiv.innerHTML = '❌ No se encontraron resultados. <a href="#" onclick="document.getElementById(\'searchInput\').value=\'\'; handleSearch(); return false;">Limpiar búsqueda</a>';
+        } else {
+            resultsDiv.textContent = `✓ ${count} ${count === 1 ? 'resultado encontrado' : 'resultados encontrados'}`;
+        }
+    }
+
+    function updateRecentSearches() {
+        const container = document.getElementById('recentSearches');
+        if (recentSearches.length === 0) {
+            container.innerHTML = '';
+            return;
+        }
+        
+        const html = '<strong>Búsquedas recientes:</strong> ' + 
+            recentSearches.map(term => 
+                `<span onclick="searchGuide('${term}')">${term}</span>`
+            ).join('');
+        
+        container.innerHTML = html;
+    }
+
+    function filterCategory(category) {
+        currentFilter = category;
+        const cards = document.querySelectorAll('.category-card');
+        const buttons = document.querySelectorAll('.filter-btn');
+        
+        // Update active button
+        buttons.forEach(btn => btn.classList.remove('active'));
+        event.target.closest('.filter-btn').classList.add('active');
+        
+        // Clear search
+        document.getElementById('searchInput').value = '';
+        
+        // Filter cards
+        let visibleCount = 0;
+        cards.forEach(card => {
+            if (category === 'all' || card.getAttribute('data-category') === category) {
+                card.classList.remove('hidden');
+                const guides = card.querySelectorAll('.guide-list li');
+                guides.forEach(guide => {
+                    guide.classList.remove('hidden', 'highlight');
+                    visibleCount++;
+                });
+            } else {
+                card.classList.add('hidden');
+            }
+        });
+        
+        updateResultsCount(category === 'all' ? 16 : visibleCount);
+    }
+
+    // Enter key search
+    document.getElementById('searchInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            handleSearch();
+        }
+    });
+
+    </script> 
 </body>
 </html>
