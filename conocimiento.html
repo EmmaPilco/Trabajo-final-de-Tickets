@@ -4,8 +4,625 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Base de Conocimiento | SoporteTech</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="conocimiento.css" />
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+        }
+
+        /* Header */
+        .header {
+            background-color: #003366;
+            color: white;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        body.dark-mode .header {
+            background-color: #002244;
+        }
+
+        .header .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        .nav a:hover {
+            opacity: 0.8;
+        }
+
+        /* Dark Mode Toggle */
+        .dark-mode-toggle {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s;
+        }
+
+        .dark-mode-toggle:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Breadcrumbs */
+        .breadcrumbs {
+            background-color: #f4f6f9;
+            padding: 15px 0;
+            font-size: 0.9em;
+        }
+
+        body.dark-mode .breadcrumbs {
+            background-color: #2a2a2a;
+        }
+
+        .breadcrumbs .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .breadcrumbs a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        .breadcrumbs a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumbs span {
+            color: #666;
+            margin: 0 8px;
+        }
+
+        body.dark-mode .breadcrumbs span {
+            color: #999;
+        }
+
+        .knowledge-section {
+            padding: 80px 20px;
+            background-color: #f4f6f9;
+        }
+
+        body.dark-mode .knowledge-section {
+            background-color: #1a1a1a;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #003366;
+        }
+
+        body.dark-mode .section-title {
+            color: #66b3ff;
+        }
+
+        .intro-text {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+            font-size: 1.1em;
+            color: #555;
+        }
+
+        body.dark-mode .intro-text {
+            color: #aaa;
+        }
+
+        /* Popular Guides Banner */
+        .popular-banner {
+            background: linear-gradient(135deg, #0066cc 0%, #003366 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px auto 40px;
+            max-width: 1000px;
+            box-shadow: 0 5px 20px rgba(0,102,204,0.3);
+        }
+
+        .popular-banner h3 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .popular-guides {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .popular-item {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .popular-item:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-3px);
+        }
+
+        .popular-item-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        .popular-stats {
+            display: flex;
+            gap: 15px;
+            font-size: 0.85em;
+            opacity: 0.9;
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Search Box */
+        .search-container {
+            max-width: 800px;
+            margin: 0 auto 50px auto;
+        }
+
+        .search-box {
+            display: flex;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            position: relative;
+        }
+
+        body.dark-mode .search-box {
+            background-color: #2a2a2a;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .search-input {
+            flex-grow: 1;
+            padding: 15px 20px;
+            border: none;
+            font-size: 1.1em;
+            background: transparent;
+            color: inherit;
+        }
+
+        .search-input:focus {
+            outline: none;
+        }
+
+        .search-button {
+            background-color: #0066cc;
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+
+        .search-button:hover {
+            background-color: #004c99;
+        }
+
+        .search-results-count {
+            text-align: center;
+            margin: -30px 0 20px;
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        body.dark-mode .search-results-count {
+            color: #999;
+        }
+
+        .recent-searches {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        body.dark-mode .recent-searches {
+            color: #999;
+        }
+
+        .recent-searches span {
+            display: inline-block;
+            background: #e8f4ff;
+            padding: 5px 12px;
+            border-radius: 15px;
+            margin: 5px 5px 5px 0;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        body.dark-mode .recent-searches span {
+            background: #2a4a6a;
+            color: #66b3ff;
+        }
+
+        .recent-searches span:hover {
+            background: #0066cc;
+            color: white;
+        }
+
+        /* Category Filters */
+        .category-filters {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .filter-btn {
+            background: white;
+            border: 2px solid #0066cc;
+            color: #0066cc;
+            padding: 10px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        body.dark-mode .filter-btn {
+            background: #2a2a2a;
+            border-color: #66b3ff;
+            color: #66b3ff;
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,102,204,0.2);
+        }
+
+        .filter-btn.active {
+            background: #0066cc;
+            color: white;
+        }
+
+        body.dark-mode .filter-btn.active {
+            background: #66b3ff;
+            color: #003366;
+        }
+
+        .filter-count {
+            background: rgba(255,255,255,0.3);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.85em;
+        }
+
+        .filter-btn.active .filter-count {
+            background: rgba(255,255,255,0.4);
+        }
+
+        /* Categories Grid */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .category-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            border-top: 4px solid #0066cc;
+            transition: all 0.3s;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        body.dark-mode .category-card {
+            background: #2a2a2a;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+        }
+
+        .category-card.hidden {
+            display: none;
+        }
+
+        .category-card:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transform: translateY(-5px);
+        }
+
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #eee;
+        }
+
+        body.dark-mode .category-header {
+            border-bottom-color: #444;
+        }
+
+        .category-card h3 {
+            color: #003366;
+            font-size: 1.4em;
+        }
+
+        body.dark-mode .category-card h3 {
+            color: #66b3ff;
+        }
+
+        .category-count {
+            background: #e8f4ff;
+            color: #0066cc;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        body.dark-mode .category-count {
+            background: #2a4a6a;
+            color: #66b3ff;
+        }
+
+        .guide-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .guide-list li {
+            margin-bottom: 15px;
+            padding-left: 0;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        .guide-list li.hidden {
+            display: none;
+        }
+
+        .guide-list li.highlight {
+            background: #fff3cd;
+            padding: 8px;
+            border-radius: 5px;
+            margin-left: -8px;
+        }
+
+        body.dark-mode .guide-list li.highlight {
+            background: #4a4a2a;
+        }
+
+        .guide-list a {
+            color: #333;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 0;
+            transition: color 0.2s;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        body.dark-mode .guide-list a {
+            color: #e0e0e0;
+        }
+
+        .guide-list a:before {
+            content: "▸";
+            color: #0066cc;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        body.dark-mode .guide-list a:before {
+            color: #66b3ff;
+        }
+
+        .guide-list a:hover {
+            color: #0066cc;
+            text-decoration: underline;
+        }
+
+        body.dark-mode .guide-list a:hover {
+            color: #66b3ff;
+        }
+
+        .guide-badge {
+            background: #28a745;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7em;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .guide-badge.updated {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .guide-icon {
+            font-size: 1.2em;
+        }
+
+        /* Help Banner */
+        .help-banner {
+            background: #f8f9fa;
+            border: 2px dashed #0066cc;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        body.dark-mode .help-banner {
+            background: #2a2a2a;
+            border-color: #66b3ff;
+        }
+
+        .help-banner h3 {
+            color: #003366;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        body.dark-mode .help-banner h3 {
+            color: #66b3ff;
+        }
+
+        .help-banner p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        body.dark-mode .help-banner p {
+            color: #aaa;
+        }
+
+        .btn-help {
+            background: #0066cc;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-help:hover {
+            background: #004c99;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,102,204,0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #003366;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        body.dark-mode .footer {
+            background-color: #002244;
+        }
+
+        .footer a {
+            color: #66ccff;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0,102,204,0.3);
+            border-radius: 50%;
+            border-top-color: #0066cc;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav {
+                display: none;
+            }
+            
+            .category-filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .filter-btn {
+                justify-content: center;
+            }
+
+            .popular-guides {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
     <header class="header">
@@ -17,10 +634,19 @@
                     <li><a href="index.html#servicios">Servicios</a></li>
                     <li><a href="index.html#crear-ticket">Crear Ticket</a></li>
                     <li><a href="index.html#mis-tickets">Mis Tickets</a></li>
+                    <li><button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙 Modo Oscuro</button></li>
                 </ul>
             </nav>
         </div>
     </header>
+
+    <div class="breadcrumbs">
+        <div class="container">
+            <a href="index.html">Inicio</a>
+            <span>›</span>
+            <strong>Base de Conocimiento</strong>
+        </div>
+    </div>
 
     <section class="knowledge-section">
         <div class="container">
@@ -29,53 +655,224 @@
                 Encuentra tutoriales, soluciones rápidas y documentación completa para resolver problemas por tu cuenta.
             </p>
 
-            <div class="search-box">
-                <input type="text" placeholder="Buscar guías, errores o aplicaciones (ej: 'Outlook', 'impresora', 'VPN')" class="search-input">
-                <button class="search-button">🔍 Buscar</button>
+            <!-- Popular Guides -->
+            <div class="popular-banner">
+                <h3>🔥 Guías Más Consultadas</h3>
+                <div class="popular-guides">
+                    <div class="popular-item" onclick="searchGuide('Outlook')">
+                        <div class="popular-item-title">📧 Actualizar MS Office y Outlook</div>
+                        <div class="popular-stats">
+                            <span class="stat">👁️ 1,234 vistas</span>
+                            <span class="stat">⭐ 4.8</span>
+                        </div>
+                    </div>
+                    <div class="popular-item" onclick="searchGuide('VPN')">
+                        <div class="popular-item-title">🔐 Configuración de VPN</div>
+                        <div class="popular-stats">
+                            <span class="stat">👁️ 987 vistas</span>
+                            <span class="stat">⭐ 4.9</span>
+                        </div>
+                    </div>
+                    <div class="popular-item" onclick="searchGuide('impresora')">
+                        <div class="popular-item-title">🖨️ Diagnóstico de Impresora</div>
+                        <div class="popular-stats">
+                            <span class="stat">👁️ 856 vistas</span>
+                            <span class="stat">⭐ 4.7</span>
+                        </div>
+                    </div>
+                    <div class="popular-item" onclick="searchGuide('contraseña')">
+                        <div class="popular-item-title">🔑 Restablecer Contraseña</div>
+                        <div class="popular-stats">
+                            <span class="stat">👁️ 745 vistas</span>
+                            <span class="stat">⭐ 4.6</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
+            <!-- Search Box -->
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" 
+                           id="searchInput"
+                           placeholder="Buscar guías, errores o aplicaciones (ej: 'Outlook', 'impresora', 'VPN')" 
+                           class="search-input"
+                           oninput="handleSearch()">
+                    <button class="search-button" onclick="handleSearch()">🔍 Buscar</button>
+                </div>
+                <div class="recent-searches" id="recentSearches"></div>
+            </div>
+
+            <div class="search-results-count" id="resultsCount"></div>
+
+            <!-- Category Filters -->
+            <div class="category-filters">
+                <button class="filter-btn active" onclick="filterCategory('all')">
+                    Todas <span class="filter-count" id="count-all">16</span>
+                </button>
+                <button class="filter-btn" onclick="filterCategory('software')">
+                    💻 Software <span class="filter-count" id="count-software">4</span>
+                </button>
+                <button class="filter-btn" onclick="filterCategory('redes')">
+                    🔌 Redes <span class="filter-count" id="count-redes">4</span>
+                </button>
+                <button class="filter-btn" onclick="filterCategory('hardware')">
+                    🖥️ Hardware <span class="filter-count" id="count-hardware">4</span>
+                </button>
+                <button class="filter-btn" onclick="filterCategory('seguridad')">
+                    🔒 Seguridad <span class="filter-count" id="count-seguridad">4</span>
+                </button>
+            </div>
+
+            <!-- Categories Grid -->
             <div class="categories-grid">
 
-                <div class="category-card">
-                    <h3>💻 Software y Productividad</h3>
+                <div class="category-card" data-category="software">
+                    <div class="category-header">
+                        <h3>💻 Software y Productividad</h3>
+                        <span class="category-count">4 guías</span>
+                    </div>
                     <ul class="guide-list">
-                        <li><a href="#">Cómo actualizar MS Office y Outlook</a></li>
-                        <li><a href="#">Solucionar errores de la Aplicación de Inventario (F-301)</a></li>
-                        <li><a href="#">Guía para borrar caché y cookies del navegador</a></li>
-                        <li><a href="#">Configuración de doble monitor en Windows 10/11</a></li>
+                        <li data-keywords="office outlook actualizar email correo">
+                            <a href="#">
+                                <span class="guide-icon">📧</span>
+                                Cómo actualizar MS Office y Outlook
+                                <span class="guide-badge updated">Actualizado</span>
+                            </a>
+                        </li>
+                        <li data-keywords="inventario aplicacion error f-301 bug">
+                            <a href="#">
+                                <span class="guide-icon">📦</span>
+                                Solucionar errores de la Aplicación de Inventario (F-301)
+                            </a>
+                        </li>
+                        <li data-keywords="cache cookies navegador browser limpiar">
+                            <a href="#">
+                                <span class="guide-icon">🧹</span>
+                                Guía para borrar caché y cookies del navegador
+                            </a>
+                        </li>
+                        <li data-keywords="monitor pantalla doble dual windows configurar">
+                            <a href="#">
+                                <span class="guide-icon">🖥️</span>
+                                Configuración de doble monitor en Windows 10/11
+                                <span class="guide-badge">Nuevo</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
 
-                <div class="category-card">
-                    <h3>🔌 Redes y Conectividad</h3>
+                <div class="category-card" data-category="redes">
+                    <div class="category-header">
+                        <h3>🔌 Redes y Conectividad</h3>
+                        <span class="category-count">4 guías</span>
+                    </div>
                     <ul class="guide-list">
-                        <li><a href="#">Diagnóstico de Conexión a Internet Lenta (5 pasos)</a></li>
-                        <li><a href="#">Configuración inicial y uso de VPN (Acceso Remoto)</a></li>
-                        <li><a href="#">Cómo reiniciar el Router/AP correctamente</a></li>
-                        <li><a href="#">Resolviendo problemas de red WiFi corporativa</a></li>
+                        <li data-keywords="internet lento conexion velocidad diagnostico">
+                            <a href="#">
+                                <span class="guide-icon">🐌</span>
+                                Diagnóstico de Conexión a Internet Lenta (5 pasos)
+                            </a>
+                        </li>
+                        <li data-keywords="vpn acceso remoto configuracion conexion segura">
+                            <a href="#">
+                                <span class="guide-icon">🔐</span>
+                                Configuración inicial y uso de VPN (Acceso Remoto)
+                                <span class="guide-badge updated">Actualizado</span>
+                            </a>
+                        </li>
+                        <li data-keywords="router reiniciar ap access point reset">
+                            <a href="#">
+                                <span class="guide-icon">🔄</span>
+                                Cómo reiniciar el Router/AP correctamente
+                            </a>
+                        </li>
+                        <li data-keywords="wifi red inalambrica problema conexion corporativa">
+                            <a href="#">
+                                <span class="guide-icon">📶</span>
+                                Resolviendo problemas de red WiFi corporativa
+                            </a>
+                        </li>
                     </ul>
                 </div>
 
-                <div class="category-card">
-                    <h3>🖥️ Hardware y Periféricos</h3>
+                <div class="category-card" data-category="hardware">
+                    <div class="category-header">
+                        <h3>🖥️ Hardware y Periféricos</h3>
+                        <span class="category-count">4 guías</span>
+                    </div>
                     <ul class="guide-list">
-                        <li><a href="#">Mi impresora no funciona: Guía de diagnóstico completo</a></li>
-                        <li><a href="#">Optimización de PC con rendimiento bajo o lento</a></li>
-                        <li><a href="#">Cómo limpiar el teclado y mouse correctamente</a></li>
-                        <li><a href="#">Gestión de garantía para equipos dañados</a></li>
+                        <li data-keywords="impresora imprimir problema diagnostico printer">
+                            <a href="#">
+                                <span class="guide-icon">🖨️</span>
+                                Mi impresora no funciona: Guía de diagnóstico completo
+                            </a>
+                        </li>
+                        <li data-keywords="pc lento rendimiento optimizar velocidad performance">
+                            <a href="#">
+                                <span class="guide-icon">⚡</span>
+                                Optimización de PC con rendimiento bajo o lento
+                                <span class="guide-badge">Nuevo</span>
+                            </a>
+                        </li>
+                        <li data-keywords="teclado mouse limpiar mantenimiento limpieza">
+                            <a href="#">
+                                <span class="guide-icon">🧼</span>
+                                Cómo limpiar el teclado y mouse correctamente
+                            </a>
+                        </li>
+                        <li data-keywords="garantia equipo roto dañado reparacion">
+                            <a href="#">
+                                <span class="guide-icon">🛠️</span>
+                                Gestión de garantía para equipos dañados
+                            </a>
+                        </li>
                     </ul>
                 </div>
 
-                <div class="category-card">
-                    <h3>🔒 Seguridad y Cuentas</h3>
+                <div class="category-card" data-category="seguridad">
+                    <div class="category-header">
+                        <h3>🔒 Seguridad y Cuentas</h3>
+                        <span class="category-count">4 guías</span>
+                    </div>
                     <ul class="guide-list">
-                        <li><a href="#">Procedimiento para restablecer mi contraseña</a></li>
-                        <li><a href="#">Guía para identificar y reportar correos Phishing</a></li>
-                        <li><a href="#">Revisión de permisos de archivos compartidos</a></li>
-                        <li><a href="#">Mantener el Antivirus actualizado</a></li>
+                        <li data-keywords="contraseña password restablecer recuperar cambiar">
+                            <a href="#">
+                                <span class="guide-icon">🔑</span>
+                                Procedimiento para restablecer mi contraseña
+                            </a>
+                        </li>
+                        <li data-keywords="phishing correo spam seguridad email malicioso">
+                            <a href="#">
+                                <span class="guide-icon">🎣</span>
+                                Guía para identificar y reportar correos Phishing
+                                <span class="guide-badge updated">Actualizado</span>
+                            </a>
+                        </li>
+                        <li data-keywords="permisos archivos compartir acceso carpeta">
+                            <a href="#">
+                                <span class="guide-icon">📂</span>
+                                Revisión de permisos de archivos compartidos
+                            </a>
+                        </li>
+                        <li data-keywords="antivirus actualizar seguridad proteccion virus">
+                            <a href="#">
+                                <span class="guide-icon">🛡️</span>
+                                Mantener el Antivirus actualizado
+                            </a>
+                        </li>
                     </ul>
                 </div>
 
+            </div>
+
+            <!-- Help Banner -->
+            <div class="help-banner">
+                <h3>❓ ¿No encontraste lo que buscabas?</h3>
+                <p>Nuestro equipo de soporte está listo para ayudarte. Crea un ticket y te responderemos en menos de 24 horas.</p>
+                <button class="btn-help" onclick="window.location.href='index.html#crear-ticket'">
+                    📝 Crear Ticket de Soporte
+                </button>
             </div>
         </div>
     </section>
@@ -84,5 +881,160 @@
         <p>&copy; 2025 SoporteTech. Todos los derechos reservados.</p>
         <p><a href="#">Política de Privacidad</a> | <a href="#">Términos de Servicio</a></p>
     </footer>
+
+    <script>
+        let recentSearches = [];
+        let currentFilter = 'all';
+
+        function handleSearch() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            
+            if (!searchTerm) {
+                showAllGuides();
+                updateResultsCount(16);
+                return;
+            }
+
+            // Save to recent searches
+            if (searchTerm && !recentSearches.includes(searchTerm)) {
+                recentSearches.unshift(searchTerm);
+                if (recentSearches.length > 5) recentSearches.pop();
+                updateRecentSearches();
+            }
+
+            let visibleCount = 0;
+            const guides = document.querySelectorAll('.guide-list li');
+            const cards = document.querySelectorAll('.category-card');
+            
+            // Reset all
+            guides.forEach(guide => {
+                guide.classList.remove('hidden', 'highlight');
+            });
+            
+            cards.forEach(card => {
+                card.classList.remove('hidden');
+                let hasVisibleGuide = false;
+                const cardGuides = card.querySelectorAll('.guide-list li');
+                
+                cardGuides.forEach(guide => {
+                    const keywords = guide.getAttribute('data-keywords') || '';
+                    const text = guide.textContent.toLowerCase();
+                    
+                    if (keywords.includes(searchTerm) || text.includes(searchTerm)) {
+                        guide.classList.add('highlight');
+                        hasVisibleGuide = true;
+                        visibleCount++;
+                    } else {
+                        guide.classList.add('hidden');
+                    }
+                });
+                
+                if (!hasVisibleGuide) {
+                    card.classList.add('hidden');
+                }
+            });
+            
+            updateResultsCount(visibleCount);
+        }
+
+        function searchGuide(term) {
+            document.getElementById('searchInput').value = term;
+            handleSearch();
+            document.getElementById('searchInput').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function showAllGuides() {
+            document.querySelectorAll('.guide-list li').forEach(guide => {
+                guide.classList.remove('hidden', 'highlight');
+            });
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.classList.remove('hidden');
+            });
+        }
+
+        function updateResultsCount(count) {
+            const resultsDiv = document.getElementById('resultsCount');
+            if (count === 16 || document.getElementById('searchInput').value === '') {
+                resultsDiv.textContent = '';
+            } else if (count === 0) {
+                resultsDiv.innerHTML = '❌ No se encontraron resultados. <a href="#" onclick="document.getElementById(\'searchInput\').value=\'\'; handleSearch(); return false;">Limpiar búsqueda</a>';
+            } else {
+                resultsDiv.textContent = `✓ ${count} ${count === 1 ? 'resultado encontrado' : 'resultados encontrados'}`;
+            }
+        }
+
+        function updateRecentSearches() {
+            const container = document.getElementById('recentSearches');
+            if (recentSearches.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+            
+            const html = '<strong>Búsquedas recientes:</strong> ' + 
+                recentSearches.map(term => 
+                    `<span onclick="searchGuide('${term}')">${term}</span>`
+                ).join('');
+            
+            container.innerHTML = html;
+        }
+
+        function filterCategory(category) {
+            currentFilter = category;
+            const cards = document.querySelectorAll('.category-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            // Update active button
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.closest('.filter-btn').classList.add('active');
+            
+            // Clear search
+            document.getElementById('searchInput').value = '';
+            
+            // Filter cards
+            let visibleCount = 0;
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.classList.remove('hidden');
+                    const guides = card.querySelectorAll('.guide-list li');
+                    guides.forEach(guide => {
+                        guide.classList.remove('hidden', 'highlight');
+                        visibleCount++;
+                    });
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+            
+            updateResultsCount(category === 'all' ? 16 : visibleCount);
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const button = document.querySelector('.dark-mode-toggle');
+            
+            if (document.body.classList.contains('dark-mode')) {
+                button.textContent = '☀️ Modo Claro';
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                button.textContent = '🌙 Modo Oscuro';
+                localStorage.setItem('darkMode', 'disabled');
+            }
+        }
+
+        // Load dark mode preference
+        window.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('darkMode') === 'enabled') {
+                document.body.classList.add('dark-mode');
+                document.querySelector('.dark-mode-toggle').textContent = '☀️ Modo Claro';
+            }
+        });
+
+        // Enter key search
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                handleSearch();
+            }
+        });
+    </script>
 </body>
 </html>
