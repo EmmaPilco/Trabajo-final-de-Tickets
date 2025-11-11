@@ -1,0 +1,227 @@
+.turnos-section {
+    padding: 80px 20px;
+    background-color: #f4f6f9;
+}
+
+.turnos-section .section-title {
+    margin-bottom: 30px;
+}
+
+.intro-text {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 50px auto;
+    font-size: 1.1em;
+    color: #555;
+}
+
+.turnos-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.turno-form {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.turno-form .form-group {
+    margin-bottom: 25px;
+}
+
+.turno-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #003366;
+}
+
+.turno-form input,
+.turno-form select,
+.turno-form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: border-color 0.3s;
+}
+
+.turno-form input:focus,
+.turno-form select:focus,
+.turno-form textarea:focus {
+    outline: none;
+    border-color: #0066cc;
+}
+
+.horarios-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.horario-btn {
+    padding: 12px 8px;
+    border: 2px solid #e0e0e0;
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 0.9em;
+    text-align: center;
+}
+
+.horario-btn:hover {
+    border-color: #0066cc;
+    background: #f0f8ff;
+}
+
+.horario-btn.selected {
+    background: #0066cc;
+    color: white;
+    border-color: #0066cc;
+}
+
+.horario-btn.ocupado {
+    background: #f8f9fa;
+    color: #999;
+    border-color: #e9ecef;
+    cursor: not-allowed;
+    text-decoration: line-through;
+}
+
+.info-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.info-sidebar h3 {
+    color: #003366;
+    margin-bottom: 15px;
+}
+
+.tecnico-info {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.tecnico-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border-left: 4px solid #0066cc;
+}
+
+.tecnico-card strong {
+    color: #003366;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.tecnico-card p {
+    color: #666;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+}
+
+.disponibilidad {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85em;
+}
+
+.disponible {
+    color: #28a745;
+    font-weight: 600;
+}
+
+.no-disponible {
+    color: #dc3545;
+    font-weight: 600;
+}
+
+.info-box {
+    background: #e8f4ff;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid #0066cc;
+}
+
+.info-box h4 {
+    color: #003366;
+    margin-bottom: 10px;
+}
+
+.info-box ul {
+    list-style: none;
+    padding: 0;
+}
+
+.info-box li {
+    padding: 5px 0;
+    padding-left: 20px;
+    position: relative;
+}
+
+.info-box li:before {
+    content: "•";
+    color: #0066cc;
+    position: absolute;
+    left: 0;
+}
+
+.confirmacion-turno {
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.confirmacion-turno h4 {
+    margin-bottom: 10px;
+    color: #155724;
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+    .turnos-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .horarios-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .horarios-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .turno-form {
+        padding: 25px;
+    }
+}

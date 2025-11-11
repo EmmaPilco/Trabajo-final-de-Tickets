@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Mis Turnos - SoporteTech</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="login.css" />
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">🛠️ SoporteTech</div>
+            <nav>
+                <ul class="nav">
+                    <li><a href="tech-dashboard.html">Dashboard</a></li>
+                    <li><a href="#" onclick="handleLogout()">Cerrar Sesión</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="tech-dashboard">
+        <div class="container">
+            <div class="dashboard-header">
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">A</div>
+                    <div>
+                        <h3>Turnos de <span id="userName">Técnico</span></h3>
+                        <p>Gestiona tus turnos asignados</p>
+                    </div>
+                </div>
+                <button class="logout-button" onclick="handleLogout()">
+                    🚪 Cerrar Sesión
+                </button>
+            </div>
+
+            <div class="filters-container" style="background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <div>
+                        <label><strong>Filtrar por:</strong></label>
+                        <select id="filtroFecha" onchange="filtrarTurnos()" style="padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+                            <option value="todos">Todos los turnos</option>
+                            <option value="hoy">Hoy</option>
+                            <option value="proximos">Próximos</option>
+                            <option value="completados">Completados</option>
+                        </select>
+                    </div>
+                    <button onclick="cargarTurnosTecnico()" class="btn-toggle">🔄 Actualizar</button>
+                </div>
+            </div>
+
+            <div class="turnos-list" id="listaTurnos">
+                <!-- Los turnos se cargarán aquí -->
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2025 SoporteTech. Todos los derechos reservados.</p>
+        <p><a href="#">Política de Privacidad</a> | <a href="#">Términos de Servicio</a></p>
+    </footer>
+
+    <script src="login.js"></script>
+    <script src="tech-turnos.js"></script>
+</body>
+</html>
