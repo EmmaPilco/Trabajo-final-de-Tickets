@@ -455,3 +455,57 @@
 .file-link:hover {
     text-decoration: underline;
 }
+
+.message-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+}
+
+.image-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.image-gallery img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.comment-text img {
+    max-width: 100% !important;
+    height: auto !important;
+    border-radius: 5px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    display: block !important;
+}
+
+.chat-modal img {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block !important;
+}
+img {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block !important;
+    border-radius: 5px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+}
+
+.comment-text img, 
+.ticket-message img,
+.message-content img {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block !important;
+}

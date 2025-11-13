@@ -277,3 +277,34 @@ function cargarTickets() {
         tickets = JSON.parse(storedTickets);
     }
 }
+
+
+
+
+function initImageDisplay() {
+    // Encontrar todas las imágenes en los mensajes
+    const messageImages = document.querySelectorAll('.message-content img');
+    
+    // Crear galería si hay imágenes
+    if (messageImages.length > 0) {
+        const gallery = document.createElement('div');
+        gallery.className = 'image-gallery';
+        
+        messageImages.forEach((img, index) => {
+            const thumbnail = img.cloneNode();
+            thumbnail.style.cursor = 'pointer';
+            thumbnail.onclick = () => {
+                // Al hacer clic en miniatura, mostrar imagen grande
+                img.scrollIntoView({ behavior: 'smooth' });
+            };
+            gallery.appendChild(thumbnail);
+        });
+        
+        // Insertar galería después de los mensajes
+        const messagesContainer = document.querySelector('.message-content').parentElement;
+        messagesContainer.parentNode.insertBefore(gallery, messagesContainer.nextSibling);
+    }
+}
+
+// Ejecutar cuando cargue la página
+document.addEventListener('DOMContentLoaded', initImageDisplay);

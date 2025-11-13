@@ -121,3 +121,25 @@
 .comments-history::-webkit-scrollbar-thumb:hover {
     background: #a8a8a8;
 }
+.comment-text img {
+    display: block !important;
+    max-width: 100% !important;
+    height: auto !important;
+    border-radius: 5px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+}
+
+/* IMÁGENES EN COMENTARIOS - TÉCNICO */
+.comment-text img {
+    display: block !important;
+    max-width: 100% !important;
+    height: auto !important;
+    border-radius: 5px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+}
+
+.comment-text {
+    overflow: visible !important;
+}

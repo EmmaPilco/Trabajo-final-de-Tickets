@@ -230,8 +230,19 @@ function renderRecentTickets(tickets) {
                                 ${getCommentIcon(comentario)} ${comentario.autor}
                                 ${comentario.tipo === 'interno' ? ' (Interno)' : ''}
                             </span>
-                            <span class="comment-text">${comentario.texto}</span>
-                            <span class="comment-time">${formatTime(comentario.fecha)}</span>
+<span class="comment-text">
+    ${comentario.texto.replace(/(https?:\/\/[^\s]+\.(jpg|jpeg|png|gif|webp))/gi, '<img src="$1" style="display:block;max-width:100%;height:auto;border-radius:5px;margin:5px 0;border:1px solid #ddd;">')}
+    ${comentario.archivo && comentario.archivo.tipo.startsWith('image/') ? `
+        <div class="attached-image" style="margin-top: 10px;">
+            <img src="${comentario.archivo.data}" alt="${comentario.archivo.nombre}" 
+                 style="max-width: 200px; max-height: 150px; border-radius: 4px; cursor: pointer;"
+                 onclick="openTechImageModal('${comentario.archivo.data}')">
+            <div class="file-info-small" style="font-size: 0.8em; color: #666; margin-top: 5px;">
+                ${comentario.archivo.nombre} (${formatFileSize(comentario.archivo.tamaño)})
+            </div>
+        </div>
+    ` : ''}
+</span>                            <span class="comment-time">${formatTime(comentario.fecha)}</span>
                         </div>
                     `).join('') : 
                     '<div class="no-comments">No hay comentarios aún. Sé el primero en escribir.</div>'
@@ -310,37 +321,53 @@ function formatTime(fechaString) {
 }
 
 // Función para expandir/contraer chat 
+// FUNCIÓN CORREGIDA - REEMPLAZA LA QUE TIENES ACTUALMENTE
 function toggleFullChat(ticketId) {
-    const ticket = ticketDB.getAllTickets().find(t => t.id === ticketId);
+    const ticket = currentTickets.find(t => t.id === ticketId) || 
+                   ticketDB.getAllTickets().find(t => t.id === ticketId);
     if (!ticket) return;
     
     const modalHtml = `
         <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000;">
             <div style="background: white; padding: 20px; border-radius: 10px; width: 90%; max-width: 600px; max-height: 80vh; overflow: hidden; display: flex; flex-direction: column;">
-                <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 15px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                     <h3>💬 Conversación completa - Ticket #${ticket.id}</h3>
                     <button onclick="this.parentElement.parentElement.parentElement.remove()" style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">✕</button>
                 </div>
-                <div style="flex-grow: 1; overflow-y: auto; padding: 10px; background: #f8f9fa; border-radius: 6px; margin-bottom: 15px;">
+                <div style="flex-grow: 1; overflow-y: auto; padding: 10px; background: #f8f9fa; border-radius: 6px; margin-bottom: 15px;" id="modal-chat-content">
                     ${ticket.comentarios.map(comentario => `
-                        <div class="comment-preview-item ${getCommentClass(comentario)}" style="margin-bottom: 10px;">
-                            <span class="comment-author">
-                                ${getCommentIcon(comentario)} ${comentario.autor}
-                                ${comentario.tipo === 'interno' ? ' (Interno)' : ''}
-                            </span>
-                            <span class="comment-text">${comentario.texto}</span>
-                            <span class="comment-time">${formatTime(comentario.fecha)}</span>
-                        </div>
+                        <div class="comment-preview-item ${getCommentClass(comentario)}" style="margin-bottom: 15px; padding: 10px; border-radius: 6px; background: white;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span class="comment-author" style="font-weight: bold;">
+                                    ${getCommentIcon(comentario)} ${comentario.autor}
+                                    ${comentario.tipo === 'interno' ? ' (Interno)' : ''}
+                                </span>
+                                <span class="comment-time" style="color: #666; font-size: 0.8em;">${formatTime(comentario.fecha)}</span>
+                            </div>
+<div class="comment-text">
+    ${formatCommentText(comentario.texto)}
+    ${comentario.archivo && comentario.archivo.tipo.startsWith('image/') ? `
+        <div class="attached-image" style="margin-top: 10px;">
+            <img src="${comentario.archivo.data}" alt="${comentario.archivo.nombre}" 
+                 style="max-width: 200px; max-height: 150px; border-radius: 4px; cursor: pointer;"
+                 onclick="openTechImageModal('${comentario.archivo.data}')">
+            <div class="file-info-small" style="font-size: 0.8em; color: #666; margin-top: 5px;">
+                ${comentario.archivo.nombre} (${formatFileSize(comentario.archivo.tamaño)})
+            </div>
+        </div>
+    ` : ''}
+</div>                        </div>
                     `).join('')}
                 </div>
                 <div>
                     <textarea 
-    id="comment-${ticket.id.replace(/[^a-zA-Z0-9]/g, '_')}" 
-    placeholder="Escribe una respuesta para ${ticket.nombre}..." 
-    rows="2"
-></textarea>
-                    <button onclick="addCommentFromModal(${ticketId})" style="background: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin-right: 10px;">📨 Enviar</button>
-                    <button onclick="addInternalNoteFromModal(${ticketId})" style="background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">📝 Nota Interna</button>
+                        id="modal-comment-${ticket.id}" 
+                        placeholder="Escribe una respuesta para ${ticket.nombre}..." 
+                        rows="2"
+                        style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 10px;"
+                    ></textarea>
+                    <button onclick="addCommentFromModal('${ticket.id}')" style="background: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin-right: 10px;">📨 Enviar</button>
+                    <button onclick="addInternalNoteFromModal('${ticket.id}')" style="background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">📝 Nota Interna</button>
                 </div>
             </div>
         </div>
@@ -357,13 +384,47 @@ function toggleFullChat(ticketId) {
     modal.innerHTML = modalHtml;
     document.body.appendChild(modal);
     
-    // Auto-scroll al final del chat en el modal
+    // FORZAR QUE LAS IMÁGENES SE MUESTREN - ESTA ES LA PARTE CLAVE
     setTimeout(() => {
-        const chatContainer = modal.querySelector('div[style*="overflow-y: auto"]');
+        const chatContainer = document.getElementById('modal-chat-content');
         if (chatContainer) {
+            // Buscar todas las imágenes y asegurarse que se muestren
+            const images = chatContainer.querySelectorAll('img');
+            images.forEach(img => {
+                img.style.display = 'block';
+                img.style.maxWidth = '100%';
+                img.style.height = 'auto';
+                img.style.borderRadius = '5px';
+                img.style.margin = '5px 0';
+                img.style.border = '1px solid #ddd';
+            });
+            
+            // Auto-scroll al final del chat
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
     }, 100);
+}
+
+// FORMATEACOMENTARIOS CON IMÁGENES
+function formatCommentTextWithImages(texto) {
+    if (!texto) return '';
+    
+    // Detectar URLs de imágenes (más patrones)
+    const imageRegex = /(https?:\/\/[^\s]+\.(jpg|jpeg|png|gif|webp|bmp|svg))/gi;
+    
+    let processedText = texto;
+    
+    // Si el texto es una URL de imagen directa
+    if (imageRegex.test(texto) && texto.match(imageRegex).length === 1 && texto.trim() === texto.match(imageRegex)[0]) {
+        return `<img src="${texto}" style="max-width: 300px; height: auto; border-radius: 5px; margin: 5px 0; border: 1px solid #ddd; display: block;" alt="Imagen adjunta">`;
+    }
+    
+    // Reemplazar URLs de imágenes en el texto
+    processedText = processedText.replace(imageRegex, (url) => {
+        return `<br><img src="${url}" style="max-width: 300px; height: auto; border-radius: 5px; margin: 5px 0; border: 1px solid #ddd; display: block;" alt="Imagen adjunta"><br>`;
+    });
+    
+    return processedText;
 }
 
 function addCommentFromModal(ticketId) {
@@ -565,5 +626,41 @@ window.addEventListener('beforeunload', function() {
     if (realTimeListener) {
         realTimeListener();
         console.log('🧹 Listener de tiempo real limpiado');
+    }
+});
+// 🔥 FUNCIÓN PARA MODAL DE IMÁGENES EN VISTA TÉCNICO
+function openTechImageModal(imageUrl) {
+    const modalHtml = `
+        <div id="imageModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: flex; justify-content: center; align-items: center; z-index: 10000;">
+            <div style="position: relative;">
+                <img src="${imageUrl}" style="max-width: 90vw; max-height: 90vh; border-radius: 8px;">
+                <button onclick="closeTechImageModal()" style="position: absolute; top: -40px; right: 0; background: #dc3545; color: white; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 16px; cursor: pointer;">×</button>
+            </div>
+        </div>
+    `;
+    
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+}
+
+function closeTechImageModal() {
+    const modal = document.getElementById('imageModal');
+    if (modal) {
+        modal.remove();
+    }
+}
+
+// 🔥 FUNCIÓN PARA FORMATEAR TAMAÑO DE ARCHIVO
+function formatFileSize(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
+
+// Cerrar modal con ESC
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeTechImageModal();
     }
 });

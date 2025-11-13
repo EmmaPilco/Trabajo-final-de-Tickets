@@ -482,6 +482,13 @@ function previewImage(ticketId) {
         fileInput.value = '';
         return;
     }
+ 
+    const maxDataUrlSize = 1 * 1024 * 1024; // 1MB
+if (file.size > maxDataUrlSize) {
+    alert('Para imágenes muy grandes, usa el sistema de tickets normal. Máximo 1MB para adjuntos.');
+    fileInput.value = '';
+    return;
+}
     
     // Validar tamaño (máximo 5MB)
     const maxSize = 5 * 1024 * 1024; // 5MB
