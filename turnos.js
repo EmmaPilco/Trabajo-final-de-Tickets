@@ -133,6 +133,22 @@ document.getElementById('turnoForm').addEventListener('submit', function(e) {
     
     turnos.push(nuevoTurno);
     guardarTurnos();
+
+    console.log('🎯 CREANDO NOTIFICACIÓN PARA TURNO NUEVO');
+    
+    // Método 1: Usar el sistema simple si está disponible
+    if (typeof notificacionesSimple !== 'undefined') {
+        console.log('✅ Usando sistema simple de notificaciones');
+        notificacionesSimple.crearNotificacionTurno(nuevoTurno);
+    }
+    // Método 2: Crear notificación manualmente COMO FALLBACK
+    else {
+        console.log('🔄 Usando método manual de notificación');
+        crearNotificacionManual(nuevoTurno);
+    }
+    
+    // Método 3: FORZAR notificación en localStorage directamente
+    crearNotificacionForzada(nuevoTurno);
     
     // Mostrar confirmación
     mostrarConfirmacion(nuevoTurno);
@@ -175,4 +191,62 @@ function obtenerTurnosPorTecnico(emailTecnico) {
         const emailTecnicoFormateado = turno.tecnico.toLowerCase().replace(' ', '.') + '@soporte.com';
         return emailTecnicoFormateado === emailTecnico && turno.estado === 'confirmado';
     });
+}
+
+// MÉTODO MANUAL
+function crearNotificacionManual(turno) {
+    try {
+        const notificacion = {
+            id: Date.now() + 1, // ID diferente
+            tipo: 'nuevo_turno',
+            titulo: '📅 Nuevo Turno',
+            mensaje: `${turno.cliente_nombre} - ${turno.fecha} ${turno.horario}`,
+            tecnico: turno.tecnico,
+            leida: false,
+            fecha: new Date().toLocaleString('es-ES')
+        };
+
+        const existentes = JSON.parse(localStorage.getItem('notificaciones') || '[]');
+        existentes.unshift(notificacion);
+        localStorage.setItem('notificaciones', JSON.stringify(existentes));
+        
+        console.log('✅ Notificación manual creada');
+    } catch (error) {
+        console.error('❌ Error en método manual:', error);
+    }
+}
+
+// MÉTODO FORZADO - SIEMPRE FUNCIONA
+function crearNotificacionForzada(turno) {
+    try {
+        // Crear notificación básica
+        const notifBasica = {
+            id: Date.now() + 2, // Otro ID diferente
+            titulo: 'Nuevo Turno',
+            mensaje: `Tienes un turno con ${turno.cliente_nombre}`,
+            tecnico: turno.tecnico,
+            leida: false,
+            fecha: new Date().toISOString()
+        };
+        
+        // Obtener array existente o crear uno nuevo
+        let notificaciones = [];
+        const stored = localStorage.getItem('notificaciones');
+        
+        if (stored) {
+            notificaciones = JSON.parse(stored);
+        }
+        
+        // Agregar nueva notificación
+        notificaciones.unshift(notifBasica);
+        
+        // Guardar
+        localStorage.setItem('notificaciones', JSON.stringify(notificaciones));
+        
+        console.log('🎯 NOTIFICACIÓN FORZADA CREADA:', notifBasica);
+        console.log('📊 Total en localStorage:', notificaciones.length);
+        
+    } catch (error) {
+        console.error('💥 ERROR CRÍTICO creando notificación:', error);
+    }
 }

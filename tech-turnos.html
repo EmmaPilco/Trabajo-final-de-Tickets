@@ -17,6 +17,29 @@
                     <li><a href="#" onclick="handleLogout()">Cerrar Sesión</a></li>
                 </ul>
             </nav>
+            <div class="sistema-notificaciones">
+                <button class="btn-notificaciones" onclick="togglePanelNotificaciones()">
+                    🔔
+                    <span class="badge-notificaciones" id="badgeNotificaciones" style="display: none;">0</span>
+                </button>
+                
+                <div class="panel-notificaciones" id="panelNotificaciones">
+                    <div class="header-notificaciones">
+                        <h4>📬 Notificaciones</h4>
+                        <button class="btn-marcar-todas" onclick="marcarTodasLeidas()">
+                            Marcar todas leídas
+                        </button>
+                    </div>
+                    
+                    <div class="lista-notificaciones" id="listaNotificaciones">
+                        Cargando notificaciones...
+                    </div>
+                    
+                    <div class="footer-notificaciones">
+                        <small>Actualización automática cada 3 segundos</small>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
 
