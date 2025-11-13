@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard Técnicos - SoporteTech</title>
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="login.css" />
@@ -23,7 +24,7 @@
                     🔔
                     <span class="badge-notificaciones" id="badgeNotificaciones" style="display: none;">0</span>
                 </button>
-                
+
                 <div class="panel-notificaciones" id="panelNotificaciones">
                     <div class="header-notificaciones">
                         <h4>📬 Notificaciones</h4>
@@ -31,11 +32,11 @@
                             Marcar todas leídas
                         </button>
                     </div>
-                    
+
                     <div class="lista-notificaciones" id="listaNotificaciones">
                         Cargando notificaciones...
                     </div>
-                    
+
                     <div class="footer-notificaciones">
                         <small>Actualización automática cada 3 segundos</small>
                     </div>
@@ -58,7 +59,7 @@
             </div>
 
             <h2 class="section-title">📊 Dashboard de Tickets</h2>
-            
+
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">📊</div>
@@ -67,6 +68,7 @@
                     <div class="stats-container" id="statsContainer">
                         <p>Cargando estadísticas...</p>
                     </div>
+                    <a href="estadisticas.html" class="btn-service">Ver Estadísticas &rarr;</a>
                 </div>
 
                 <div class="feature-card">
@@ -81,6 +83,13 @@
                     <h3>Mis Turnos</h3>
                     <p>Gestiona los turnos asignados para hoy y los próximos días.</p>
                     <a href="tech-turnos.html" class="btn-service">Ver Mis Turnos &rarr;</a>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📅</div>
+                    <h3>Calendario Avanzado</h3>
+                    <p>Visualiza y gestiona todos los turnos en un calendario interactivo.</p>
+                    <a href="calendario.html" class="btn-service">Ver Calendario &rarr;</a>
                 </div>
             </div>
 
@@ -104,10 +113,11 @@
     </footer>
 
     <link rel="stylesheet" href="notificaciones.css">
-<script src="notificaciones.js"></script>
-<script src="notificaciones-ui.js"></script>
+    <script src="notificaciones.js"></script>
+    <script src="notificaciones-ui.js"></script>
     <script src="login.js"></script>
     <script src="database.js"></script>
     <script src="tech-dashboard.js"></script>
 </body>
+
 </html>

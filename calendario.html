@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Mis Turnos - SoporteTech</title>
+    <title>Calendario - SoporteTech</title>
     <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="login.css" />
+    <link rel="stylesheet" href="calendario.css" />
 </head>
 <body>
     <header class="header">
@@ -14,9 +14,14 @@
             <nav>
                 <ul class="nav">
                     <li><a href="tech-dashboard.html">Dashboard</a></li>
+                    <li><a href="tech-turnos.html">Mis Turnos</a></li>
+                    <li><a href="tech-tickets.html">Tickets</a></li>
+                    <li><a href="calendario.html" class="active">Calendario</a></li>
                     <li><a href="#" onclick="handleLogout()">Cerrar Sesión</a></li>
                 </ul>
             </nav>
+            
+            <!-- Sistema de notificaciones -->
             <div class="sistema-notificaciones">
                 <button class="btn-notificaciones" onclick="togglePanelNotificaciones()">
                     🔔
@@ -43,38 +48,23 @@
         </div>
     </header>
 
-    <section class="tech-dashboard">
+    <section class="calendario-section">
         <div class="container">
-            <div class="dashboard-header">
-                <div class="user-info">
-                    <div class="user-avatar" id="userAvatar">A</div>
-                    <div>
-                        <h3>Turnos de <span id="userName">Técnico</span></h3>
-                        <p>Gestiona tus turnos asignados</p>
-                    </div>
-                </div>
-                <button class="logout-button" onclick="handleLogout()">
-                    🚪 Cerrar Sesión
-                </button>
+            <!-- Filtros -->
+            <div class="filtros-calendario">
+                <label for="filtroTecnico">👤 Ver turnos de:</label>
+                <select class="selector-tecnico" id="filtroTecnico" onchange="calendario.filtrarPorTecnico(this.value)">
+                    <option value="todos">Todos los técnicos</option>
+                    <option value="Emmanuel Pilco">Emmanuel Pilco</option>
+                    <option value="Rodrigo Tapia">Rodrigo Tapia</option>
+                    <option value="Naobi Fernandez">Naobi Fernandez</option>
+                    <option value="Rafael Gonzales">Rafael Gonzales</option>
+                </select>
             </div>
 
-            <div class="filters-container" style="background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-                <div style="display: flex; gap: 15px; align-items: center;">
-                    <div>
-                        <label><strong>Filtrar por:</strong></label>
-                        <select id="filtroFecha" onchange="filtrarTurnos()" style="padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
-                            <option value="todos">Todos los turnos</option>
-                            <option value="hoy">Hoy</option>
-                            <option value="proximos">Próximos</option>
-                            <option value="completados">Completados</option>
-                        </select>
-                    </div>
-                    <button onclick="cargarTurnosTecnico()" class="btn-toggle">🔄 Actualizar</button>
-                </div>
-            </div>
-
-            <div class="turnos-list" id="listaTurnos">
-                <!-- Los turnos se cargarán aquí -->
+            <!-- Calendario -->
+            <div class="calendario-grid" id="calendarioContainer">
+                <!-- El calendario se cargará aquí -->
             </div>
         </div>
     </section>
@@ -84,10 +74,25 @@
         <p><a href="#">Política de Privacidad</a> | <a href="#">Términos de Servicio</a></p>
     </footer>
 
+    <!-- Scripts -->
     <link rel="stylesheet" href="notificaciones.css">
     <script src="notificaciones.js"></script>
     <script src="notificaciones-ui.js"></script>
     <script src="login.js"></script>
-    <script src="tech-turnos.js"></script>
+    <script src="calendario.js"></script>
+    <script>
+        // Inicializar calendario cuando la página cargue
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('📅 Inicializando calendario...');
+            const container = document.getElementById('calendarioContainer');
+            
+            if (container) {
+                container.innerHTML = calendario.generarCalendarioMes();
+                console.log('✅ Calendario cargado correctamente');
+            } else {
+                console.error('❌ No se encontró el contenedor del calendario');
+            }
+        });
+    </script>
 </body>
 </html>

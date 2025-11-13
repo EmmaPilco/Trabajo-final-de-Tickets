@@ -36,15 +36,6 @@ function mostrarTurnos(turnos) {
                 <div class="empty-state-icon">📅</div>
                 <h3>No hay turnos asignados</h3>
                 <p>No se encontraron turnos confirmados para ti en este momento.</p>
-                <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; text-align: left;">
-                    <strong>💡 Para probar el sistema:</strong>
-                    <ol style="margin-top: 10px; margin-left: 20px;">
-                        <li>Abre <a href="turnos.html" target="_blank">turnos.html</a> en otra pestaña</li>
-                        <li>Selecciona tu nombre en "Seleccionar Técnico"</li>
-                        <li>Completa el formulario y agenda un turno</li>
-                        <li>Regresa aquí y recarga la página</li>
-                    </ol>
-                </div>
             </div>
         `;
         return;

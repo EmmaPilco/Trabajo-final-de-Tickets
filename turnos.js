@@ -2,6 +2,22 @@
 let turnos = [];
 let horarioSeleccionado = null;
 
+document.addEventListener('DOMContentLoaded', function() {
+    const fechaSeleccionada = localStorage.getItem('fechaSeleccionada');
+    const fechaInput = document.getElementById('fecha_turno');
+    
+    if (fechaSeleccionada && fechaInput) {
+        fechaInput.value = fechaSeleccionada;
+        localStorage.removeItem('fechaSeleccionada'); // Limpiar después de usar
+        
+        // Disparar el evento para cargar horarios
+        const event = new Event('change');
+        fechaInput.dispatchEvent(event);
+        
+        console.log('📅 Fecha preseleccionada desde calendario:', fechaSeleccionada);
+    }
+});
+
 // Horarios disponibles (8:00 a 18:00)
 const HORARIOS_DISPONIBLES = [
     '08:00', '09:00', '10:00', '11:00', 

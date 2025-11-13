@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Mis Turnos - SoporteTech</title>
+    <title>Estadísticas - SoporteTech</title>
     <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="login.css" />
+    <link rel="stylesheet" href="estadisticas.css" />
 </head>
 <body>
     <header class="header">
@@ -14,15 +14,19 @@
             <nav>
                 <ul class="nav">
                     <li><a href="tech-dashboard.html">Dashboard</a></li>
+                    <li><a href="tech-turnos.html">Mis Turnos</a></li>
+                    <li><a href="tech-tickets.html">Tickets</a></li>
+                    <li><a href="estadisticas.html" class="active">Estadísticas</a></li>
                     <li><a href="#" onclick="handleLogout()">Cerrar Sesión</a></li>
                 </ul>
             </nav>
+            
             <div class="sistema-notificaciones">
                 <button class="btn-notificaciones" onclick="togglePanelNotificaciones()">
                     🔔
                     <span class="badge-notificaciones" id="badgeNotificaciones" style="display: none;">0</span>
                 </button>
-                
+
                 <div class="panel-notificaciones" id="panelNotificaciones">
                     <div class="header-notificaciones">
                         <h4>📬 Notificaciones</h4>
@@ -30,11 +34,11 @@
                             Marcar todas leídas
                         </button>
                     </div>
-                    
+
                     <div class="lista-notificaciones" id="listaNotificaciones">
                         Cargando notificaciones...
                     </div>
-                    
+
                     <div class="footer-notificaciones">
                         <small>Actualización automática cada 3 segundos</small>
                     </div>
@@ -43,38 +47,25 @@
         </div>
     </header>
 
-    <section class="tech-dashboard">
+    <section class="estadisticas-section">
         <div class="container">
-            <div class="dashboard-header">
-                <div class="user-info">
-                    <div class="user-avatar" id="userAvatar">A</div>
-                    <div>
-                        <h3>Turnos de <span id="userName">Técnico</span></h3>
-                        <p>Gestiona tus turnos asignados</p>
-                    </div>
-                </div>
-                <button class="logout-button" onclick="handleLogout()">
-                    🚪 Cerrar Sesión
-                </button>
-            </div>
-
-            <div class="filters-container" style="background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-                <div style="display: flex; gap: 15px; align-items: center;">
-                    <div>
-                        <label><strong>Filtrar por:</strong></label>
-                        <select id="filtroFecha" onchange="filtrarTurnos()" style="padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
-                            <option value="todos">Todos los turnos</option>
-                            <option value="hoy">Hoy</option>
-                            <option value="proximos">Próximos</option>
-                            <option value="completados">Completados</option>
-                        </select>
-                    </div>
-                    <button onclick="cargarTurnosTecnico()" class="btn-toggle">🔄 Actualizar</button>
+            <div class="estadisticas-header">
+                <h2>📊 Panel de Estadísticas</h2>
+                <div class="controles-estadisticas">
+                    <select class="selector-periodo" id="selectorPeriodo">
+                        <option value="mes">Este Mes</option>
+                        <option value="semana">Esta Semana</option>
+                        <option value="trimestre">Este Trimestre</option>
+                        <option value="año">Este Año</option>
+                    </select>
+                    <button class="btn-exportar" onclick="estadisticasUI.exportarReporte()">
+                        📥 Exportar Reporte
+                    </button>
                 </div>
             </div>
 
-            <div class="turnos-list" id="listaTurnos">
-                <!-- Los turnos se cargarán aquí -->
+            <div id="estadisticasContainer">
+                <!-- Las estadísticas se cargarán aquí -->
             </div>
         </div>
     </section>
@@ -84,10 +75,12 @@
         <p><a href="#">Política de Privacidad</a> | <a href="#">Términos de Servicio</a></p>
     </footer>
 
+    <!-- Scripts -->
     <link rel="stylesheet" href="notificaciones.css">
     <script src="notificaciones.js"></script>
     <script src="notificaciones-ui.js"></script>
     <script src="login.js"></script>
-    <script src="tech-turnos.js"></script>
+    <script src="estadisticas.js"></script>
+    <script src="estadisticas-ui.js"></script>
 </body>
 </html>

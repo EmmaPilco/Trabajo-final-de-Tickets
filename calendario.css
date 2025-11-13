@@ -1,0 +1,529 @@
+/* calendario.css - Diseño profesional para calendario */
+.calendario-section {
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    min-height: 100vh;
+}
+
+.calendario-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.calendario-titulo h2 {
+    color: #003366;
+    margin: 0;
+    font-size: 2.2em;
+}
+
+.calendario-subtitulo {
+    color: #666;
+    font-size: 1.1em;
+    margin-top: 5px;
+}
+
+.calendario-controles {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.btn-calendario {
+    background: white;
+    border: 2px solid #0066cc;
+    color: #0066cc;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-calendario:hover {
+    background: #0066cc;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,102,204,0.3);
+}
+
+.btn-hoy {
+    background: #0066cc;
+    color: white;
+}
+
+/* Filtros */
+.filtros-calendario {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    margin-bottom: 25px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.filtros-calendario label {
+    font-weight: 600;
+    color: #003366;
+}
+
+.selector-tecnico {
+    padding: 10px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1em;
+    color: #003366;
+    font-weight: 600;
+    background: white;
+    min-width: 200px;
+}
+
+/* Grid del calendario */
+.calendario-grid {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    overflow: hidden;
+}
+
+.dias-semana {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background: linear-gradient(135deg, #0066cc 0%, #003366 100%);
+    color: white;
+    font-weight: 600;
+}
+
+.dia-semana {
+    padding: 20px;
+    text-align: center;
+    border-right: 1px solid rgba(255,255,255,0.1);
+}
+
+.dia-semana:last-child {
+    border-right: none;
+}
+
+.dias-mes {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+    background: #f0f0f0;
+}
+
+/* Días del mes */
+.dia {
+    background: white;
+    min-height: 120px;
+    padding: 12px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid #f0f0f0;
+}
+
+.dia:hover {
+    background: #f8f9fa;
+    transform: scale(1.02);
+    z-index: 1;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.dia.vacio {
+    background: #fafafa;
+    cursor: default;
+}
+
+.dia.vacio:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.dia.hoy {
+    background: #e3f2fd;
+    border: 2px solid #0066cc;
+}
+
+.dia.pasado {
+    background: #f8f9fa;
+    opacity: 0.7;
+}
+
+.dia.fin-semana {
+    background: #f9f9f9;
+}
+
+.dia.con-turnos {
+    background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+    border-left: 4px solid #0066cc;
+}
+
+/* Número del día */
+.numero-dia {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #003366;
+    margin-bottom: 8px;
+}
+
+.dia.pasado .numero-dia {
+    color: #666;
+}
+
+.dia.fin-semana .numero-dia {
+    color: #dc3545;
+}
+
+.dia.hoy .numero-dia {
+    color: #0066cc;
+    font-weight: 800;
+}
+
+/* Indicadores */
+.indicador-turnos {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
+}
+
+.contador-turnos {
+    background: #0066cc;
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8em;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.tipos-turnos {
+    display: flex;
+    gap: 3px;
+    justify-content: center;
+}
+
+.tipo-turno {
+    font-size: 1.2em;
+}
+
+.tipo-confirmado {
+    color: #ffc107;
+}
+
+.tipo-completado {
+    color: #28a745;
+}
+
+.tipo-cancelado {
+    color: #dc3545;
+}
+
+.indicador-hoy {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: #0066cc;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-size: 0.7em;
+    font-weight: 600;
+}
+
+/* Modal */
+.modal-calendario {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-contenido {
+    background: white;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow: hidden;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px;
+    background: linear-gradient(135deg, #0066cc 0%, #003366 100%);
+    color: white;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.btn-cerrar {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2em;
+    cursor: pointer;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s;
+}
+
+.btn-cerrar:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+.modal-body {
+    padding: 25px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+/* Lista de turnos en modal */
+.sin-turnos {
+    text-align: center;
+    padding: 40px 20px;
+    color: #666;
+}
+
+.icono-vacio {
+    font-size: 4em;
+    margin-bottom: 20px;
+    opacity: 0.5;
+}
+
+.lista-turnos-dia {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.turno-card {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 4px solid #0066cc;
+}
+
+.turno-card.completado {
+    border-left-color: #28a745;
+    background: #f0fff4;
+}
+
+.turno-card.cancelado {
+    border-left-color: #dc3545;
+    background: #fff5f5;
+}
+
+.turno-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.turno-hora {
+    font-weight: bold;
+    color: #003366;
+    font-size: 1.1em;
+}
+
+.turno-estado {
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.8em;
+    font-weight: 600;
+}
+
+.turno-estado.confirmado {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.turno-estado.completado {
+    background: #d4edda;
+    color: #155724;
+}
+
+.turno-estado.cancelado {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.turno-cliente {
+    margin-bottom: 8px;
+}
+
+.turno-tecnico {
+    margin-bottom: 10px;
+}
+
+.tecnico-badge {
+    background: #e3f2fd;
+    color: #0066cc;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: 600;
+}
+
+.turno-descripcion {
+    color: #666;
+    font-size: 0.9em;
+    line-height: 1.4;
+    margin-bottom: 15px;
+}
+
+.turno-acciones {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-turno {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.8em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-turno.contacto {
+    background: #0066cc;
+    color: white;
+}
+
+.btn-turno.contacto:hover {
+    background: #004c99;
+}
+
+.btn-turno.completar {
+    background: #28a745;
+    color: white;
+}
+
+.btn-turno.completar:hover {
+    background: #218838;
+}
+
+.modal-actions {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.btn-agendar {
+    background: linear-gradient(135deg, #0066cc 0%, #004c99 100%);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-agendar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,102,204,0.3);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .calendario-header {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+    
+    .calendario-controles {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .filtros-calendario {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .dia {
+        min-height: 80px;
+        padding: 8px;
+    }
+    
+    .numero-dia {
+        font-size: 1em;
+    }
+    
+    .contador-turnos {
+        width: 20px;
+        height: 20px;
+        font-size: 0.7em;
+    }
+}
+
+/* Scroll personalizado para modal */
+.modal-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
