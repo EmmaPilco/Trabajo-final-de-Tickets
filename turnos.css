@@ -201,6 +201,27 @@
     color: #155724;
 }
 
+/* Agregar estos estilos al final del archivo */
+
+.error-mensaje {
+    color: #dc3545;
+    font-size: 0.8em;
+    margin-top: 5px;
+    display: block;
+}
+
+.turno-form input.error,
+.turno-form select.error,
+.turno-form textarea.error {
+    border-color: #dc3545;
+}
+
+.turno-form input.valid,
+.turno-form select.valid,
+.turno-form textarea.valid {
+    border-color: #28a745;
+}
+
 /* Responsive */
 @media (max-width: 968px) {
     .turnos-container {

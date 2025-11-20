@@ -2,35 +2,35 @@
 let turnos = [];
 let horarioSeleccionado = null;
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const fechaSeleccionada = localStorage.getItem('fechaSeleccionada');
     const fechaInput = document.getElementById('fecha_turno');
-    
+
     if (fechaSeleccionada && fechaInput) {
         fechaInput.value = fechaSeleccionada;
         localStorage.removeItem('fechaSeleccionada'); // Limpiar después de usar
-        
+
         // Disparar el evento para cargar horarios
         const event = new Event('change');
         fechaInput.dispatchEvent(event);
-        
+
         console.log('📅 Fecha preseleccionada desde calendario:', fechaSeleccionada);
     }
 });
 
 // Horarios disponibles (8:00 a 18:00)
 const HORARIOS_DISPONIBLES = [
-    '08:00', '09:00', '10:00', '11:00', 
-    '12:00', '13:00', '14:00', '15:00', 
+    '08:00', '09:00', '10:00', '11:00',
+    '12:00', '13:00', '14:00', '15:00',
     '16:00', '17:00'
 ];
 
 // Inicializar fecha mínima (hoy)
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const fechaInput = document.getElementById('fecha_turno');
     const hoy = new Date().toISOString().split('T')[0];
     fechaInput.min = hoy;
-    
+
     cargarTurnos();
 });
 
@@ -56,37 +56,37 @@ function cargarDisponibilidad() {
 function cargarHorariosDisponibles() {
     const tecnico = document.getElementById('tecnico').value;
     const fecha = document.getElementById('fecha_turno').value;
-    
+
     if (!tecnico || !fecha) {
         return;
     }
-    
+
     // Validar que sea día laboral (lunes a viernes)
     const fechaObj = new Date(fecha);
     const diaSemana = fechaObj.getDay(); // 0: domingo, 6: sábado
-    
+
     if (diaSemana === 0 || diaSemana === 6) {
         alert('⚠️ Los turnos solo están disponibles de lunes a viernes.');
         document.getElementById('fecha_turno').value = '';
         document.getElementById('horarios-container').style.display = 'none';
         return;
     }
-    
+
     const horariosContainer = document.getElementById('horarios-container');
     const horariosGrid = document.getElementById('horarios-grid');
-    
+
     // Obtener horarios ocupados para este técnico en esta fecha
     const horariosOcupados = turnos
-        .filter(turno => 
-            turno.tecnico === tecnico && 
+        .filter(turno =>
+            turno.tecnico === tecnico &&
             turno.fecha === fecha &&
             turno.estado !== 'cancelado'
         )
         .map(turno => turno.horario);
-    
+
     // Generar botones de horarios
     horariosGrid.innerHTML = '';
-    
+
     HORARIOS_DISPONIBLES.forEach(horario => {
         const estaOcupado = horariosOcupados.includes(horario);
         const button = document.createElement('button');
@@ -94,14 +94,14 @@ function cargarHorariosDisponibles() {
         button.className = `horario-btn ${estaOcupado ? 'ocupado' : ''}`;
         button.textContent = horario;
         button.disabled = estaOcupado;
-        
+
         if (!estaOcupado) {
             button.addEventListener('click', () => seleccionarHorario(horario, button));
         }
-        
+
         horariosGrid.appendChild(button);
     });
-    
+
     horariosContainer.style.display = 'block';
 }
 
@@ -110,31 +110,112 @@ function seleccionarHorario(horario, button) {
     document.querySelectorAll('.horario-btn').forEach(btn => {
         btn.classList.remove('selected');
     });
-    
+
     // Seleccionar nuevo horario
     button.classList.add('selected');
     horarioSeleccionado = horario;
-    
+
     // Habilitar botón de confirmación
     document.getElementById('submitTurno').disabled = false;
 }
 
 // Manejar envío del formulario
-document.getElementById('turnoForm').addEventListener('submit', function(e) {
+document.getElementById('turnoForm').addEventListener('submit', function (e) {
     e.preventDefault();
-    
+
     const nombre = document.getElementById('cliente_nombre').value.trim();
     const email = document.getElementById('cliente_email').value.trim();
     const direccion = document.getElementById('cliente_direccion').value.trim();
     const tecnico = document.getElementById('tecnico').value;
     const fecha = document.getElementById('fecha_turno').value;
     const descripcion = document.getElementById('descripcion').value.trim();
-    
-    if (!nombre || !email || !tecnico || !fecha || !horarioSeleccionado || !descripcion) {
+
+    // Validar campos
+    let formularioValido = true;
+
+    // Validar nombre
+    if (!nombre) {
+        mostrarError(document.getElementById('cliente_nombre'), 'El nombre es obligatorio');
+        formularioValido = false;
+    } else if (!validarNombre(nombre)) {
+        mostrarError(document.getElementById('cliente_nombre'), 'El nombre solo puede contener letras, espacios y guiones');
+        formularioValido = false;
+    } else {
+        removerError(document.getElementById('cliente_nombre'));
+    }
+
+    // Validar email
+    if (!email) {
+        mostrarError(document.getElementById('cliente_email'), 'El email es obligatorio');
+        formularioValido = false;
+    } else if (!validarEmail(email)) {
+        mostrarError(document.getElementById('cliente_email'), 'Por favor ingresa un email válido (ej: usuario@gmail.com)');
+        formularioValido = false;
+    } else {
+        removerError(document.getElementById('cliente_email'));
+    }
+
+    // Validar dirección
+    if (!direccion) {
+        mostrarError(document.getElementById('cliente_direccion'), 'La dirección es obligatoria');
+        formularioValido = false;
+    } else if (!validarDireccion(direccion)) {
+        mostrarError(document.getElementById('cliente_direccion'), 'La dirección debe contener calle y número (ej: Av. Principal 123)');
+        formularioValido = false;
+    } else {
+        removerError(document.getElementById('cliente_direccion'));
+    }
+
+    // Validar otros campos obligatorios
+    if (!tecnico || !fecha || !horarioSeleccionado || !descripcion) {
         alert('Por favor, completa todos los campos y selecciona un horario.');
+        formularioValido = false;
+    }
+
+    if (!formularioValido) {
         return;
     }
-    
+
+    // Validación en tiempo real para campos de texto
+    document.getElementById('cliente_nombre').addEventListener('blur', function () {
+        const valor = this.value.trim();
+        if (valor && !validarNombre(valor)) {
+            mostrarError(this, 'El nombre solo puede contener letras, espacios y guiones');
+        } else if (valor) {
+            removerError(this);
+            this.style.borderColor = '#28a745';
+        } else {
+            removerError(this);
+            this.style.borderColor = '#e0e0e0';
+        }
+    });
+
+    document.getElementById('cliente_email').addEventListener('blur', function () {
+        const valor = this.value.trim();
+        if (valor && !validarEmail(valor)) {
+            mostrarError(this, 'Por favor ingresa un email válido (ej: usuario@gmail.com)');
+        } else if (valor) {
+            removerError(this);
+            this.style.borderColor = '#28a745';
+        } else {
+            removerError(this);
+            this.style.borderColor = '#e0e0e0';
+        }
+    });
+
+    document.getElementById('cliente_direccion').addEventListener('blur', function () {
+        const valor = this.value.trim();
+        if (valor && !validarDireccion(valor)) {
+            mostrarError(this, 'La dirección debe contener calle y número (ej: Av. Principal 123)');
+        } else if (valor) {
+            removerError(this);
+            this.style.borderColor = '#28a745';
+        } else {
+            removerError(this);
+            this.style.borderColor = '#e0e0e0';
+        }
+    });
+
     // Crear nuevo turno
     const nuevoTurno = {
         id: Date.now(),
@@ -148,12 +229,12 @@ document.getElementById('turnoForm').addEventListener('submit', function(e) {
         estado: 'confirmado',
         fecha_creacion: new Date().toLocaleString('es-ES')
     };
-    
+
     turnos.push(nuevoTurno);
     guardarTurnos();
 
     console.log('🎯 CREANDO NOTIFICACIÓN PARA TURNO NUEVO');
-    
+
     // Método 1: Usar el sistema simple si está disponible
     if (typeof notificacionesSimple !== 'undefined') {
         console.log('✅ Usando sistema simple de notificaciones');
@@ -164,13 +245,13 @@ document.getElementById('turnoForm').addEventListener('submit', function(e) {
         console.log('🔄 Usando método manual de notificación');
         crearNotificacionManual(nuevoTurno);
     }
-    
+
     // Método 3: FORZAR notificación en localStorage directamente
     crearNotificacionForzada(nuevoTurno);
-    
+
     // Mostrar confirmación
     mostrarConfirmacion(nuevoTurno);
-    
+
     // Limpiar formulario
     this.reset();
     document.getElementById('horarios-container').style.display = 'none';
@@ -190,11 +271,11 @@ function mostrarConfirmacion(turno) {
             <p>Recibirás un recordatorio por email. Guarda este número para cualquier consulta.</p>
         </div>
     `;
-    
+
     // Insertar después del formulario
     const form = document.getElementById('turnoForm');
     form.insertAdjacentHTML('afterend', confirmacionHTML);
-    
+
     // Auto-remover después de 10 segundos
     setTimeout(() => {
         const confirmacion = document.querySelector('.confirmacion-turno');
@@ -228,7 +309,7 @@ function crearNotificacionManual(turno) {
         const existentes = JSON.parse(localStorage.getItem('notificaciones') || '[]');
         existentes.unshift(notificacion);
         localStorage.setItem('notificaciones', JSON.stringify(existentes));
-        
+
         console.log('✅ Notificación manual creada');
     } catch (error) {
         console.error('❌ Error en método manual:', error);
@@ -247,25 +328,75 @@ function crearNotificacionForzada(turno) {
             leida: false,
             fecha: new Date().toISOString()
         };
-        
+
         // Obtener array existente o crear uno nuevo
         let notificaciones = [];
         const stored = localStorage.getItem('notificaciones');
-        
+
         if (stored) {
             notificaciones = JSON.parse(stored);
         }
-        
+
         // Agregar nueva notificación
         notificaciones.unshift(notifBasica);
-        
+
         // Guardar
         localStorage.setItem('notificaciones', JSON.stringify(notificaciones));
-        
+
         console.log('🎯 NOTIFICACIÓN FORZADA CREADA:', notifBasica);
         console.log('📊 Total en localStorage:', notificaciones.length);
-        
+
     } catch (error) {
         console.error('💥 ERROR CRÍTICO creando notificación:', error);
     }
+}
+
+
+// Agregar estas funciones después de las declaraciones iniciales
+
+// Validación de email
+function validarEmail(email) {
+    const regex = /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|hotmail\.com|outlook\.com|icloud\.com|protonmail\.com|live\.com|aol\.com|zoho\.com|yandex\.com)$/i;
+    return regex.test(email);
+}
+
+// Validación de nombre (solo letras, espacios y algunos caracteres especiales)
+function validarNombre(nombre) {
+    const regex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s'-]{2,50}$/;
+    return regex.test(nombre.trim());
+}
+
+// Validación de dirección (solo calle y número básicos)
+function validarDireccion(direccion) {
+    const regex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\s#.,-]{5,100}$/;
+    return regex.test(direccion.trim());
+}
+
+// Mostrar mensajes de error
+function mostrarError(campo, mensaje) {
+    // Remover error anterior
+    const errorAnterior = campo.parentNode.querySelector('.error-mensaje');
+    if (errorAnterior) {
+        errorAnterior.remove();
+    }
+
+    // Agregar nuevo error
+    const errorElement = document.createElement('div');
+    errorElement.className = 'error-mensaje';
+    errorElement.textContent = mensaje;
+    errorElement.style.color = '#dc3545';
+    errorElement.style.fontSize = '0.8em';
+    errorElement.style.marginTop = '5px';
+
+    campo.parentNode.appendChild(errorElement);
+    campo.style.borderColor = '#dc3545';
+}
+
+// Remover mensajes de error
+function removerError(campo) {
+    const errorElement = campo.parentNode.querySelector('.error-mensaje');
+    if (errorElement) {
+        errorElement.remove();
+    }
+    campo.style.borderColor = '#e0e0e0';
 }
