@@ -125,6 +125,7 @@ document.getElementById('turnoForm').addEventListener('submit', function(e) {
     
     const nombre = document.getElementById('cliente_nombre').value.trim();
     const email = document.getElementById('cliente_email').value.trim();
+    const direccion = document.getElementById('cliente_direccion').value.trim();
     const tecnico = document.getElementById('tecnico').value;
     const fecha = document.getElementById('fecha_turno').value;
     const descripcion = document.getElementById('descripcion').value.trim();
@@ -139,6 +140,7 @@ document.getElementById('turnoForm').addEventListener('submit', function(e) {
         id: Date.now(),
         cliente_nombre: nombre,
         cliente_email: email,
+        cliente_direccion: direccion,
         tecnico: tecnico,
         fecha: fecha,
         horario: horarioSeleccionado,
@@ -184,6 +186,7 @@ function mostrarConfirmacion(turno) {
             <p><strong>Técnico:</strong> ${turno.tecnico}</p>
             <p><strong>Fecha:</strong> ${turno.fecha}</p>
             <p><strong>Horario:</strong> ${turno.horario}</p>
+            <p><strong>Dirección:</strong> ${turno.cliente_direccion}</p>
             <p>Recibirás un recordatorio por email. Guarda este número para cualquier consulta.</p>
         </div>
     `;

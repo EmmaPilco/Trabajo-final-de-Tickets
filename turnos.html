@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Agendar Turnos | SoporteTech</title>
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="turnos.css" />
 </head>
+
 <body>
     <header class="header">
         <div class="container">
@@ -27,7 +29,8 @@
         <div class="container">
             <h2 class="section-title">📅 Agendar Turno con Técnico</h2>
             <p class="intro-text">
-                Selecciona el técnico y la fecha para ver los horarios disponibles. Los turnos son de lunes a viernes de 8:00 a 18:00.
+                Selecciona el técnico y la fecha para ver los horarios disponibles. Los turnos son de lunes a viernes de
+                8:00 a 18:00.
             </p>
 
             <div class="turnos-container">
@@ -41,6 +44,15 @@
                         <div class="form-group">
                             <label for="cliente_email">Correo Electrónico</label>
                             <input type="email" id="cliente_email" placeholder="tu@email.com" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cliente_direccion">Dirección</label>
+                            <input type="text" id="cliente_direccion" placeholder="Ingresa tu dirección completa"
+                                required />
+                            <small style="color: #666; font-size: 0.8em; display: block; margin-top: 5px;">
+                                Incluye calle, número, ciudad y referencia para que el técnico pueda ubicarte
+                            </small>
                         </div>
                     </div>
 
@@ -69,7 +81,8 @@
 
                     <div class="form-group">
                         <label for="descripcion">Descripción del Problema</label>
-                        <textarea id="descripcion" rows="4" placeholder="Describe brevemente el problema que necesitas resolver..." required></textarea>
+                        <textarea id="descripcion" rows="4"
+                            placeholder="Describe brevemente el problema que necesitas resolver..." required></textarea>
                     </div>
 
                     <button type="submit" class="submit-button" id="submitTurno" disabled>
@@ -79,7 +92,7 @@
 
                 <div class="info-sidebar">
                     <h3>👥 Nuestros Técnicos</h3>
-                    
+
                     <div class="tecnico-info">
                         <div class="tecnico-card">
                             <strong>Emmanuel Pilco</strong>
@@ -139,4 +152,5 @@
 
     <script src="turnos.js"></script>
 </body>
+
 </html>

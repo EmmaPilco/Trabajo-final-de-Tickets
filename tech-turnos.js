@@ -72,6 +72,7 @@ function mostrarTurnos(turnos) {
             <div class="ticket-meta">
                 👤 ${turno.cliente_nombre} | 📧 ${turno.cliente_email} | 
                 📅 ${turno.fecha} | 🕒 ${turno.horario}
+                ${turno.cliente_direccion ? `<br>📍 ${turno.cliente_direccion}` : ''}
             </div>
             <div class="ticket-message">
                 <strong>Motivo:</strong> ${turno.descripcion}
@@ -86,11 +87,19 @@ function mostrarTurnos(turnos) {
                 <button class="btn-toggle" onclick="verDetallesTurno(${turno.id})" style="background: #6c757d; border-color: #6c757d;">
                     📋 Detalles
                 </button>
+                ${turno.cliente_direccion ? `
+                    <button class="btn-toggle" onclick="verEnMapa('${turno.cliente_direccion}')">
+                        🗺️ Ver Mapa
+                    </button>`:''}
             </div>
         `;
         
         listaTurnos.appendChild(turnoElement);
     });
+}
+function verEnMapa(direccion) {
+    const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(direccion)}`;
+    window.open(url, '_blank');
 }
 
 function marcarCompletado(turnoId) {
